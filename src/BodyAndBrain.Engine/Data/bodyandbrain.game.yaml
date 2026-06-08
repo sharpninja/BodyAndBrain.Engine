@@ -1,0 +1,3456 @@
+source:
+  manualRepo: F:\GitHub\BodyAndBrain
+  manualCommit: 546cb3a259825fa095c15de7aeee7a18637423c4
+  workbook: BodyAndBrain.xlsm
+  policy: manual text/effects with workbook numeric overlays
+races:
+- id: human
+  name: Human
+  statBonuses:
+    Strength: 2
+    Agility: 1
+    Constitution: 1
+    Intelligence: 0
+    Presence: 0
+    Piety: 0
+  resistances:
+    Poison: 0
+    Disease: 1
+    Wizardry: 0
+    Conjuring: 0
+    Curses: 0
+  validProfessions:
+  - Bard
+  - Berserker
+  - Cleric
+  - Conjuror
+  - Fighter
+  - Paladin
+  - Ranger
+  - Rogue
+  - Wizard
+- id: half-elf
+  name: Half-Elf
+  statBonuses:
+    Strength: 1
+    Agility: 2
+    Constitution: 1
+    Intelligence: 1
+    Presence: 1
+    Piety: -2
+  resistances:
+    Poison: 1
+    Disease: 1
+    Wizardry: 0
+    Conjuring: 0
+    Curses: -1
+  validProfessions:
+  - Bard
+  - Conjuror
+  - Fighter
+  - Ranger
+  - Rogue
+  - Wizard
+- id: elf
+  name: Elf
+  statBonuses:
+    Strength: 0
+    Agility: 3
+    Constitution: 0
+    Intelligence: 2
+    Presence: 2
+    Piety: -3
+  resistances:
+    Poison: 1
+    Disease: 2
+    Wizardry: 0
+    Conjuring: 0
+    Curses: -2
+  validProfessions:
+  - Bard
+  - Conjuror
+  - Ranger
+  - Rogue
+  - Wizard
+- id: dwarf
+  name: Dwarf
+  statBonuses:
+    Strength: 2
+    Agility: -1
+    Constitution: 2
+    Intelligence: 0
+    Presence: 0
+    Piety: 1
+  resistances:
+    Poison: 2
+    Disease: 1
+    Wizardry: -1
+    Conjuring: 0
+    Curses: -1
+  validProfessions:
+  - Berserker
+  - Cleric
+  - Conjuror
+  - Fighter
+  - Paladin
+  - Wizard
+- id: halfling
+  name: Halfling
+  statBonuses:
+    Strength: -1
+    Agility: 2
+    Constitution: 0
+    Intelligence: 1
+    Presence: 2
+    Piety: 0
+  resistances:
+    Poison: 0
+    Disease: 0
+    Wizardry: 0
+    Conjuring: 0
+    Curses: 1
+  validProfessions:
+  - Bard
+  - Cleric
+  - Conjuror
+  - Ranger
+  - Rogue
+  - Wizard
+- id: reptilian
+  name: Reptilian
+  statBonuses:
+    Strength: 2
+    Agility: -1
+    Constitution: 1
+    Intelligence: 0
+    Presence: 0
+    Piety: 2
+  resistances:
+    Poison: 1
+    Disease: 2
+    Wizardry: -2
+    Conjuring: 0
+    Curses: 0
+  validProfessions:
+  - Berserker
+  - Cleric
+  - Conjuror
+  - Fighter
+  - Paladin
+  - Wizard
+- id: orc
+  name: Orc
+  statBonuses:
+    Strength: 3
+    Agility: 0
+    Constitution: 2
+    Intelligence: -3
+    Presence: -1
+    Piety: 0
+  resistances:
+    Poison: 2
+    Disease: 2
+    Wizardry: -2
+    Conjuring: -1
+    Curses: 0
+  validProfessions:
+  - Fighter
+  - Berserker
+  - Cleric
+- id: feline
+  name: Feline
+  statBonuses:
+    Strength: -1
+    Agility: 3
+    Constitution: 0
+    Intelligence: 0
+    Presence: 3
+    Piety: -1
+  resistances:
+    Poison: 0
+    Disease: 0
+    Wizardry: 1
+    Conjuring: 0
+    Curses: 0
+  validProfessions:
+  - Bard
+  - Conjuror
+  - Ranger
+  - Rogue
+  - Wizard
+professions:
+- id: fighter
+  name: Fighter
+  primaryStat: Strength
+  classBonus: Groups of two or more fighters equipped with full shields can form a wall that adds 25 points to each participants'
+    defensive bonus and provides cover for party members behind them.
+- id: berserker
+  name: Berserker
+  primaryStat: Strength
+  classBonus: Berserkers wielding dual battle-axes roll twice for both hit and damage, taking the better of the hit rolls
+    and the sum of the damages rolls.
+- id: paladin
+  name: Paladin
+  primaryStat: Piety
+  classBonus: Paladins may pray during combat without taking a turn to do so.
+- id: ranger
+  name: Ranger
+  primaryStat: Agility
+  classBonus: Rangers gain an extra attack with a short bow for every four levels of advancement, up to level 16 at which
+    they may let loose five arrows in a round.
+- id: rogue
+  name: Rogue
+  primaryStat: Agility
+  classBonus: Rogues wearing normal attire for a region may hide in urban areas without failure, even when being sought. They
+    may not have any exposed armor or weapons when doing so.
+- id: bard
+  name: Bard
+  primaryStat: Presence
+  classBonus: Once a day a Bard can influence a person's decision in his favor without rolling.
+- id: wizard
+  name: Wizard
+  primaryStat: Intelligence
+  classBonus: Wizards are able to analyze an unknown scroll and cast a spell from it at normal effectiveness in a single turn.
+- id: conjuror
+  name: Conjuror
+  primaryStat: Intelligence
+  classBonus: Once a day the Conjuror can transform himself into one of the pets he is able to summon at his current level.
+    The Conjuror will not lose control over any controlled pets. The transformation lasts no longer than 24 hours and the
+    Conjuror can break the spell at any time. The conjuror will fight at the level of the same summoned pet and does not gain
+    combat experience while not in human form.
+- id: cleric
+  name: Cleric
+  primaryStat: Piety
+  classBonus: Once per week a Cleric may spend 60 uninterrupted minutes praying over a dead follower of the same God and bring
+    them back to life with one temporary point of stat loss across all stats for each three hours since death starting after
+    the first 10 minutes after death. If the deceased follows a different God of the same alignment, then the Cleric must
+    pray for three uninterrupted hours and the recipient receives one _permanent_ point of stat loss of their class's main
+    stat, and two temporary stat points across all other stats.
+apprenticeships:
+- id: actor
+  name: Actor
+  profession: Bard
+- id: fencing
+  name: Fencing
+  profession: Bard
+- id: politician
+  name: Politician
+  profession: Bard
+- id: lycanthropy
+  name: Lycanthropy
+  profession: Berserker
+- id: wrestling
+  name: Wrestling
+  profession: Berserker
+- id: monk
+  name: Monk
+  profession: Cleric
+- id: priesthood
+  name: Priesthood
+  profession: Cleric
+- id: undead-hunter
+  name: Undead Hunter
+  profession: Cleric
+- id: illusions
+  name: Illusions
+  profession: Conjuror
+- id: necromancy
+  name: Necromancy
+  profession: Conjuror
+- id: soldier
+  name: Soldier
+  profession: Fighter
+- id: squire
+  name: Squire
+  profession: Fighter
+- id: knight
+  name: Knight
+  profession: Paladin
+- id: animist
+  name: Animist
+  profession: Ranger
+- id: tracker
+  name: Tracker
+  profession: Ranger
+- id: burglar
+  name: Burglar
+  profession: Rogue
+- id: pick-pocket
+  name: Pick Pocket
+  profession: Rogue
+- id: alchemy
+  name: Alchemy
+  profession: Wizard
+- id: scholarship
+  name: Scholarship
+  profession: Wizard
+skills:
+- id: primary-melee
+  name: Primary Melee
+  stat: Strength
+- id: primary-missile
+  name: Primary Missile
+  stat: Agility
+- id: secondary-melee
+  name: Secondary Melee
+  stat: Strength
+- id: secondary-missile
+  name: Secondary Missile
+  stat: Agility
+- id: tertiary-melee
+  name: Tertiary Melee
+  stat: Strength
+- id: tertiary-missile
+  name: Tertiary Missile
+  stat: Agility
+- id: perception
+  name: Perception
+  stat: Presence
+- id: body-development
+  name: Body Development
+  stat: Constitution
+- id: sprint
+  name: Sprint
+  stat: Agility
+- id: run
+  name: Run
+  stat: Constitution
+- id: swim
+  name: Swim
+  stat: Agility
+- id: climb
+  name: Climb
+  stat: Strength
+- id: body-general
+  name: Body General
+  stat: null
+- id: traps
+  name: Traps
+  stat: Presence
+- id: locks
+  name: Locks
+  stat: Intelligence
+- id: persuasion
+  name: Persuasion
+  stat: null
+- id: item-lore
+  name: Item Lore
+  stat: Intelligence
+- id: read-runes
+  name: Read Runes
+  stat: Intelligence
+- id: use-item
+  name: Use Item
+  stat: Presence
+- id: brain-general
+  name: Brain General
+  stat: null
+- id: stealing
+  name: Stealing
+  stat: null
+- id: tracking
+  name: Tracking
+  stat: null
+- id: hiding
+  name: Hiding
+  stat: null
+- id: balancing
+  name: Balancing
+  stat: null
+- id: mixed-general
+  name: Mixed General
+  stat: null
+- id: none-or-light-clothing
+  name: None or Light Clothing
+  stat: Agility
+- id: robes
+  name: Robes
+  stat: Agility
+- id: soft-leather
+  name: Soft Leather
+  stat: null
+- id: rigid-leather
+  name: Rigid Leather
+  stat: null
+- id: chain
+  name: Chain
+  stat: Strength
+- id: plate
+  name: Plate
+  stat: null
+- id: helm
+  name: Helm
+  stat: Strength
+- id: shield
+  name: Shield
+  stat: Strength
+- id: enchantmant
+  name: Enchantmant
+  stat: Intelligence
+- id: conjuring
+  name: Conjuring
+  stat: Presence
+- id: prayer
+  name: Prayer
+  stat: Piety
+- id: leadership
+  name: Leadership
+  stat: Piety
+- id: naturalist
+  name: Naturalist
+  stat: Intelligence
+- id: songs
+  name: Songs
+  stat: Presence
+- id: melee
+  name: Melee
+  stat: Strength
+- id: missile
+  name: Missile
+  stat: Agility
+- id: sprinting
+  name: Sprinting
+  stat: Agility
+- id: running
+  name: Running
+  stat: Constitution
+- id: swimming
+  name: Swimming
+  stat: Agility
+- id: climbing
+  name: Climbing
+  stat: Strength
+- id: general
+  name: General
+  stat: null
+- id: none-light-clothing
+  name: None/Light Clothing
+  stat: Agility
+- id: heavy-clothing-robes
+  name: Heavy Clothing/Robes
+  stat: Agility
+spellLists:
+- id: body
+  name: Body
+  discipline: Wizardry
+  stat: Intelligence
+  restrictions:
+  - No Armor
+  - No Helms
+  - No Shields
+  - Staff
+- id: mind
+  name: Mind
+  discipline: Wizardry
+  stat: Presence
+  restrictions:
+  - No Armor
+  - No Helms
+  - No Shields
+  - Staff
+- id: summoning
+  name: Summoning
+  discipline: Conjuring
+  stat: Intelligence
+  restrictions:
+  - No Metal
+  - No Helms
+  - No Shields
+  - Totem
+- id: destroy
+  name: Destroy
+  discipline: Conjuring
+  stat: Presence
+  restrictions:
+  - No Metal
+  - No Helms
+  - No Shields
+  - Totem
+- id: blessings
+  name: Blessings
+  discipline: Prayers
+  stat: Piety
+  restrictions:
+  - No Helms
+  - Sigil
+- id: curses
+  name: Curses
+  discipline: Prayers
+  stat: Piety
+  restrictions:
+  - No Helms
+  - Sigil
+- id: leadership
+  name: Leadership
+  discipline: Paladin
+  stat: Piety
+  restrictions:
+  - Sigil
+- id: naturalist
+  name: Naturalist
+  discipline: Ranger
+  stat: Intelligence
+  restrictions:
+  - No Metal
+  - No Helms
+  - No Sheilds
+  - Totem
+- id: songs
+  name: Songs
+  discipline: Bard
+  stat: Presence
+  restrictions:
+  - No Helms
+  - No Shields
+  - Instrument
+- id: necromancer
+  name: Necromancer
+  discipline: Conjuring
+  stat: Intelligence
+  restrictions:
+  - No Metal
+  - No Helms
+  - No Shields
+  - Totem
+  - Necromancy Apprenticeship
+spells:
+- id: body-nauseate
+  list: Body
+  level: 1
+  name: Nauseate
+  type: Directed
+  targets: Area
+  range: 15 + Level
+  area: 3+Level
+  modifier: 1D4/target
+  duration: 30 seconds
+  description: A nauseating gas erupts in an area
+- id: body-bolts
+  list: Body
+  level: 3
+  name: Bolts
+  type: Directed
+  targets: '1'
+  range: 15 + Level
+  area: '-'
+  modifier: 1D10
+  duration: Immediate
+  description: A bolt (type decided by caster) directed at a single target
+- id: body-hasten
+  list: Body
+  level: 5
+  name: Hasten
+  type: Self
+  targets: Area
+  range: Self
+  area: 5 per 5 Levels
+  modifier: '-'
+  duration: 5 minutes
+  description: +15 bonus to all actions
+- id: body-blasts
+  list: Body
+  level: 7
+  name: Blasts
+  type: Directed
+  targets: Area
+  range: 25 + Level
+  area: 1/Level
+  modifier: 1D8/target
+  duration: Immediate
+  description: A blast (type decided by caster) explodes at a location
+- id: body-crush
+  list: Body
+  level: 9
+  name: Crush
+  type: Directed
+  targets: '1'
+  range: 15 + Level
+  area: '-'
+  modifier: 2D10
+  duration: Immediate
+  description: Target is crushed
+- id: body-displace
+  list: Body
+  level: 12
+  name: Displace
+  type: Directed
+  targets: '1'
+  range: 25 + Level
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Single target within Range moved anywhere within same Range
+- id: body-break-bonds
+  list: Body
+  level: 20
+  name: Break Bonds
+  type: Self
+  targets: '-'
+  range: '-'
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: All bindings (physical or magical) are broken
+- id: body-dissentegration
+  list: Body
+  level: 50
+  name: Dissentegration
+  type: Directed
+  targets: '1'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Target is immediately dissentegrated
+- id: mind-sleep
+  list: Mind
+  level: 2
+  name: Sleep
+  type: Directed
+  targets: Area
+  range: 15 + Level
+  area: '5'
+  modifier: '-'
+  duration: 10s/Level
+  description: Target is made to sleep
+- id: mind-fear
+  list: Mind
+  level: 4
+  name: Fear
+  type: Directed
+  targets: Area
+  range: 15 + Level
+  area: '5'
+  modifier: '-'
+  duration: 10s/Level
+  description: Target is panicked and cannot defend
+- id: mind-focus
+  list: Mind
+  level: 6
+  name: Focus
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: 10s/Level
+  description: Target gains +15 to attacks and parrying
+- id: mind-confuse
+  list: Mind
+  level: 8
+  name: Confuse
+  type: Directed
+  targets: '1'
+  range: 15 + Level
+  area: '-'
+  modifier: '-'
+  duration: 10s/Level
+  description: Target gains -15 to attacks and spell casting
+- id: mind-meditate
+  list: Mind
+  level: 10
+  name: Meditate
+  type: Self
+  targets: '-'
+  range: '-'
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Next spell cast gains +20
+- id: mind-read-mind
+  list: Mind
+  level: 15
+  name: Read Mind
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: One idea per 5 levels
+- id: mind-mind-control
+  list: Mind
+  level: 30
+  name: Mind Control
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: 1s/Level
+  description: Acts on behalf of the caster
+- id: summoning-hawk
+  list: Summoning
+  level: 1
+  name: Hawk
+  type: Self
+  targets: '-'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Until Killed
+  description: Conjures Level 1 Hawk
+- id: summoning-dog
+  list: Summoning
+  level: 3
+  name: Dog
+  type: Self
+  targets: '-'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Until Killed
+  description: Conjures Level 3 Dog
+- id: summoning-cougar
+  list: Summoning
+  level: 5
+  name: Cougar
+  type: Self
+  targets: '-'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Until Killed
+  description: Conjures Level 5 Cougar
+- id: summoning-wolf
+  list: Summoning
+  level: 7
+  name: Wolf
+  type: Self
+  targets: '-'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Until Killed
+  description: Conjures Level 7 Wolf
+- id: summoning-bear
+  list: Summoning
+  level: 9
+  name: Bear
+  type: Self
+  targets: '-'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Until Killed
+  description: Conjures Level 9 Bear
+- id: summoning-pegasus
+  list: Summoning
+  level: 12
+  name: Pegasus
+  type: Self
+  targets: '-'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Until Killed
+  description: Conjures Level 12 Pegasus
+- id: summoning-golem
+  list: Summoning
+  level: 20
+  name: Golem
+  type: Self
+  targets: '-'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Until Killed
+  description: Conjures Level 20 Golem
+- id: summoning-dragon
+  list: Summoning
+  level: 50
+  name: Dragon
+  type: Self
+  targets: '-'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Until Killed
+  description: Conjures Level 50 Dragon
+- id: destroy-will
+  list: Destroy
+  level: 2
+  name: Will
+  type: Directed
+  targets: '1'
+  range: 10+Level
+  area: '-'
+  modifier: 1D4
+  duration: 1D10
+  description: Reduces all activites by modifier
+- id: destroy-mind
+  list: Destroy
+  level: 4
+  name: Mind
+  type: Directed
+  targets: '1'
+  range: 10+Level
+  area: '-'
+  modifier: 1D10
+  duration: 1D10
+  description: Reduces mental activities by modifier
+- id: destroy-body
+  list: Destroy
+  level: 6
+  name: Body
+  type: Directed
+  targets: '1'
+  range: 10+Level
+  area: '-'
+  modifier: 1D10
+  duration: 1D10
+  description: Reduces strength bonus by modifier
+- id: destroy-soul
+  list: Destroy
+  level: 8
+  name: Soul
+  type: Directed
+  targets: '1'
+  range: 10+Level
+  area: '-'
+  modifier: 1D4
+  duration: 1D10
+  description: Target takes damage per round
+- id: destroy-will-2
+  list: Destroy
+  level: 10
+  name: Will 2
+  type: Directed
+  targets: Area
+  range: 10+Level
+  area: 4+1D4
+  modifier: 1D10
+  duration: 1D10
+  description: Reduces all activites by modifier
+- id: destroy-mind-2
+  list: Destroy
+  level: 15
+  name: Mind 2
+  type: Directed
+  targets: Area
+  range: 10+Level
+  area: 4+1D4
+  modifier: 1D10
+  duration: 1D10
+  description: Reduces mental activities by modifier
+- id: destroy-body-2
+  list: Destroy
+  level: 30
+  name: Body 2
+  type: Directed
+  targets: Area
+  range: 10+Level
+  area: 4+1D4
+  modifier: 1D4
+  duration: 1D10
+  description: Targets take damage per round
+- id: blessings-stop-bleeding
+  list: Blessings
+  level: 1
+  name: Stop Bleeding
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Stops any bleeding
+- id: blessings-turn-undead
+  list: Blessings
+  level: 3
+  name: Turn Undead
+  type: Directed
+  targets: Area
+  range: 25+Level
+  area: 2D4
+  modifier: 1D6 per 5 Levels
+  duration: Immediate
+  description: Damages undead in area
+- id: blessings-stop-poison
+  list: Blessings
+  level: 5
+  name: Stop Poison
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Stops all poison DoT
+- id: blessings-heal
+  list: Blessings
+  level: 7
+  name: Heal
+  type: Directed
+  targets: '1'
+  range: 1/Level
+  area: '-'
+  modifier: 1D6 per 5 Levels
+  duration: Immediate
+  description: Heals and stops bleeding
+- id: blessings-stop-disease
+  list: Blessings
+  level: 9
+  name: Stop Disease
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Stops all disease effects for caster and target
+- id: blessings-bless
+  list: Blessings
+  level: 12
+  name: Bless
+  type: Directed
+  targets: Area
+  range: 25+Level
+  area: 2D4
+  modifier: '-'
+  duration: 10s/Level
+  description: Targets gain +15 to all attacks (+30 against undead)
+- id: blessings-remove-curse
+  list: Blessings
+  level: 20
+  name: Remove Curse
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Removes all curses
+- id: blessings-revive-dead
+  list: Blessings
+  level: 50
+  name: Revive Dead
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Revives being up to 1/5 level of caster
+- id: curses-weaken
+  list: Curses
+  level: 2
+  name: Weaken
+  type: Directed
+  targets: '1'
+  range: 20+Level
+  area: '-'
+  modifier: 1D4 per 5 Levels
+  duration: 1D6 per 5 Levels
+  description: Reduces Body bonuses by modifier
+- id: curses-cause-fear
+  list: Curses
+  level: 4
+  name: Cause Fear
+  type: Directed
+  targets: Area
+  range: 20+Level
+  area: 2D4
+  modifier: '-'
+  duration: 1D6 per 5 Levels
+  description: Target cannot attack for duration of spell
+- id: curses-cause-bleeding
+  list: Curses
+  level: 6
+  name: Cause Bleeding
+  type: Directed
+  targets: '1'
+  range: 20+Level
+  area: '-'
+  modifier: 1D8 per 10 Levels
+  duration: 1D6 per 5 Levels
+  description: Target takes damage for duration of spell
+- id: curses-remove-blessing
+  list: Curses
+  level: 8
+  name: Remove Blessing
+  type: Directed
+  targets: Area
+  range: 20+Level
+  area: 2D4
+  modifier: '-'
+  duration: Immediate
+  description: All blessing are removed
+- id: curses-harm
+  list: Curses
+  level: 10
+  name: Harm
+  type: Directed
+  targets: '1'
+  range: 20+Level
+  area: '-'
+  modifier: 1D10 per 5 Levels
+  duration: Immediate
+  description: Target takes immediate damage
+- id: curses-curse
+  list: Curses
+  level: 15
+  name: Curse
+  type: Directed
+  targets: Area
+  range: 20+Level
+  area: 2D4
+  modifier: '-'
+  duration: 2D10 per 5 Levels
+  description: Target receives -15 to all attacks (-30 against undead)
+- id: curses-infection
+  list: Curses
+  level: 30
+  name: Infection
+  type: Directed
+  targets: '1'
+  range: 20+Level
+  area: '-'
+  modifier: 1D10 per 10 Levels
+  duration: 2D10 per 5 Levels
+  description: Target receives infection which causes damage for the duration of the spell.  Target attempts disease resistance
+    roll per round to break spell.
+- id: leadership-embolden
+  list: Leadership
+  level: 1
+  name: Embolden
+  type: Directed
+  targets: Area
+  range: Self
+  area: 1D6 per 5 Levels
+  modifier: 1D10
+  duration: 1D10 per 10 Levels
+  description: Adds modifier to all attacks and RR for duration of spell
+- id: leadership-restore
+  list: Leadership
+  level: 4
+  name: Restore
+  type: Directed
+  targets: '-'
+  range: Touch
+  area: '-'
+  modifier: 1D4 per 4 Levels
+  duration: Immediate
+  description: Recovers health
+- id: leadership-bless
+  list: Leadership
+  level: 7
+  name: Bless
+  type: Directed
+  targets: '-'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: 1D6 per 6 Levels
+  description: Targets gain +15 to all attacks (+30 against undead)
+- id: leadership-antidote
+  list: Leadership
+  level: 10
+  name: Antidote
+  type: Directed
+  targets: '-'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Stops all poisons
+- id: leadership-cure
+  list: Leadership
+  level: 20
+  name: Cure
+  type: Directed
+  targets: '-'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Stops all diseases
+- id: naturalist-track
+  list: Naturalist
+  level: 1
+  name: Track
+  type: Self
+  targets: '-'
+  range: '-'
+  area: 1D4 per 4 Levels
+  modifier: 1D10 per 10 Levels
+  duration: 1D4 per 4 Levels
+  description: Adds modifier to Tracking skill for duration of spell
+- id: naturalist-sure-shot
+  list: Naturalist
+  level: 4
+  name: Sure Shot
+  type: Self
+  targets: '-'
+  range: '-'
+  area: '-'
+  modifier: 1D10 per 10 Levels
+  duration: Immediate
+  description: Adds modifier to missile attack
+- id: naturalist-unseen
+  list: Naturalist
+  level: 7
+  name: Unseen
+  type: Self
+  targets: '-'
+  range: '-'
+  area: '-'
+  modifier: 1D10 per 10 Levels
+  duration: 1D4 per 4 Levels
+  description: Adds modifier to hide skill for duration of spell
+- id: naturalist-bandage
+  list: Naturalist
+  level: 10
+  name: Bandage
+  type: Self
+  targets: '-'
+  range: '-'
+  area: '-'
+  modifier: 1D4 per 4 levels
+  duration: Immediate
+  description: Heals caster
+- id: naturalist-discover
+  list: Naturalist
+  level: 20
+  name: Discover
+  type: Self
+  targets: '-'
+  range: '-'
+  area: 20'
+  modifier: '-'
+  duration: 1D10  per 10 Levels
+  description: Reveals all hidden or invisible items or targets for the duration of the spell.
+- id: songs-strengthen
+  list: Songs
+  level: 1
+  name: Strengthen
+  type: Self
+  targets: Area
+  range: '-'
+  area: 1D4 per 4 Levels
+  modifier: +5 per 5 Levels
+  duration: While Playing Inst.
+  description: Friends within area receive strength bonus modifier
+- id: songs-quicken
+  list: Songs
+  level: 3
+  name: Quicken
+  type: Self
+  targets: Area
+  range: '-'
+  area: 1D4 per 4 Levels
+  modifier: +5 per 5 Levels
+  duration: While Playing Inst.
+  description: Friends within area receive agility bonus modifier
+- id: songs-fortify
+  list: Songs
+  level: 5
+  name: Fortify
+  type: Self
+  targets: Area
+  range: '-'
+  area: 1D4 per 4 Levels
+  modifier: +5 per 5 Levels
+  duration: Until stopped
+  description: Friends within area receive constitution bonus modifier
+- id: songs-reveal
+  list: Songs
+  level: 7
+  name: Reveal
+  type: Self
+  targets: Area
+  range: '-'
+  area: 1D4 per 4 Levels
+  modifier: '-'
+  duration: Until stopped
+  description: Foes within area cannot hide or be invisible
+- id: songs-calm
+  list: Songs
+  level: 9
+  name: Calm
+  type: Self
+  targets: Area
+  range: '-'
+  area: 1D4 per 4 Levels
+  modifier: '-'
+  duration: Until stopped
+  description: Friends within area operate at +10 bonus for all activities.
+- id: songs-anxiety
+  list: Songs
+  level: 12
+  name: Anxiety
+  type: Self
+  targets: Area
+  range: '-'
+  area: 1D4 per 4 Levels
+  modifier: '-'
+  duration: Until stopped
+  description: Foes within area operate at -15 for all activities
+- id: songs-heal
+  list: Songs
+  level: 30
+  name: Heal
+  type: Self
+  targets: Area
+  range: '-'
+  area: 1D4 per 4 Levels
+  modifier: +5 per 5 Levels
+  duration: Until stopped
+  description: Friends within area healed by modifier (to be rolled each round)
+- id: necromancer-grave-sense
+  list: Necromancer
+  level: 1
+  name: Grave Sense
+  type: Self
+  targets: '-'
+  range: Self
+  area: 10 per Level
+  modifier: '-'
+  duration: 10m/Level
+  description: Detects corpses, undead, burial magic, and death curses in area
+- id: necromancer-death-whisper
+  list: Necromancer
+  level: 3
+  name: Death Whisper
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: Immediate
+  description: Asks a corpse or lingering spirit one question per 5 levels that it could answer in life
+- id: necromancer-bone-servant
+  list: Necromancer
+  level: 5
+  name: Bone Servant
+  type: Self
+  targets: '-'
+  range: 1/Level
+  area: '-'
+  modifier: '-'
+  duration: Until Killed
+  description: Animates one level 1 skeleton from available bones
+- id: necromancer-command-undead
+  list: Necromancer
+  level: 7
+  name: Command Undead
+  type: Directed
+  targets: '1'
+  range: 20+Level
+  area: '-'
+  modifier: '-'
+  duration: 1D6 per 5 Levels
+  description: Controls one undead that fails its Curses resistance
+- id: necromancer-life-drain
+  list: Necromancer
+  level: 9
+  name: Life Drain
+  type: Directed
+  targets: '1'
+  range: 15+Level
+  area: '-'
+  modifier: 1D8 per 5 Levels
+  duration: Immediate
+  description: Damages living target; caster heals half damage dealt
+- id: necromancer-animate-dead
+  list: Necromancer
+  level: 12
+  name: Animate Dead
+  type: Directed
+  targets: Area
+  range: Touch
+  area: 1D4 corpses per 5 Levels
+  modifier: '-'
+  duration: Until Killed
+  description: Raises corpses as level 3 undead servants
+- id: necromancer-bind-spirit
+  list: Necromancer
+  level: 20
+  name: Bind Spirit
+  type: Directed
+  targets: '1'
+  range: Touch
+  area: '-'
+  modifier: '-'
+  duration: 1 day/Level
+  description: Binds a spirit to a corpse, item, or ward as a guardian or informant
+- id: necromancer-lichdom
+  list: Necromancer
+  level: 50
+  name: Lichdom
+  type: Self
+  targets: '-'
+  range: Self
+  area: '-'
+  modifier: '-'
+  duration: Permanent
+  description: Transforms a willing caster into a lich; campaign-altering ritual
+weapons:
+- id: 1h-edge
+  name: 1H Edge
+  attackProfile: 1H Edge
+  damage: 1D6
+  critical: 5,6
+  governingStat: Strength
+- id: 2h-edge
+  name: 2H Edge
+  attackProfile: 2H Edge
+  damage: 2D6
+  critical: 10, 11,12
+  governingStat: Strength
+- id: 1h-conc
+  name: 1H Conc
+  attackProfile: 1H Conc
+  damage: 1D6
+  critical: 5,6
+  governingStat: Strength
+- id: 2h-conc
+  name: 2H Conc
+  attackProfile: 2H Conc
+  damage: 2D6
+  critical: 10, 11,12
+  governingStat: Strength
+- id: thrown
+  name: Thrown
+  attackProfile: Thrown
+  damage: 1D4
+  critical: '4'
+  governingStat: Agility
+- id: crossbow
+  name: Crossbow
+  attackProfile: Crossbow
+  damage: 1D8
+  critical: 7,8
+  governingStat: Agility
+- id: shortbow
+  name: Shortbow
+  attackProfile: Shortbow
+  damage: 1D6
+  critical: '6'
+  governingStat: Agility
+- id: longbow
+  name: Longbow
+  attackProfile: Longbow
+  damage: 1D10
+  critical: 9,10
+  governingStat: Agility
+- id: fist
+  name: Fist
+  attackProfile: Fist
+  damage: 1D4
+  critical: None
+  governingStat: Strength
+- id: claws
+  name: Claws
+  attackProfile: Claws
+  damage: 1D6
+  critical: '6'
+  governingStat: Agility
+armors:
+- id: none
+  name: None
+  profile: None
+  metal: false
+- id: robes
+  name: Robes
+  profile: Robes
+  metal: false
+- id: cloth
+  name: Cloth
+  profile: Robes
+  metal: false
+- id: soft-leather
+  name: Soft Leather
+  profile: Soft
+  metal: false
+- id: rigid-leather
+  name: Rigid Leather
+  profile: Rigid
+  metal: false
+- id: chain
+  name: Chain
+  profile: Chain
+  metal: true
+- id: scale
+  name: Scale
+  profile: Chain
+  metal: true
+- id: plate
+  name: Plate
+  profile: Plate
+  metal: true
+- id: helm
+  name: Helm
+  profile: Helm
+  metal: true
+- id: shield
+  name: Shield
+  profile: Shield
+  metal: true
+items:
+- id: short-sword
+  name: Short Sword
+  kind: weapon
+- id: broadsword
+  name: Broadsword
+  kind: weapon
+- id: feline-claws
+  name: Feline Claws
+  kind: weapon
+- id: none
+  name: None
+  kind: armor
+- id: robes
+  name: Robes
+  kind: armor
+- id: cloth
+  name: Cloth
+  kind: armor
+- id: soft-leather
+  name: Soft Leather
+  kind: armor
+- id: rigid-leather
+  name: Rigid Leather
+  kind: armor
+- id: chain
+  name: Chain
+  kind: armor
+- id: scale
+  name: Scale
+  kind: armor
+- id: plate
+  name: Plate
+  kind: armor
+- id: helm
+  name: Helm
+  kind: armor
+- id: shield
+  name: Shield
+  kind: armor
+- id: backpack
+  name: Backpack
+  kind: travel
+- id: bedroll
+  name: Bedroll
+  kind: travel
+- id: blanket
+  name: Blanket
+  kind: travel
+- id: cloak-hooded
+  name: Cloak, Hooded
+  kind: travel
+- id: waterskin
+  name: Waterskin
+  kind: travel
+- id: trail-rations
+  name: Trail Rations
+  kind: travel
+- id: tinderbox
+  name: Tinderbox
+  kind: travel
+- id: torch
+  name: Torch
+  kind: travel
+- id: lantern
+  name: Lantern
+  kind: travel
+- id: oil-flask
+  name: Oil Flask
+  kind: travel
+- id: rope-50-feet
+  name: Rope, 50 feet
+  kind: travel
+- id: grappling-hook
+  name: Grappling Hook
+  kind: travel
+- id: tent-small
+  name: Tent, Small
+  kind: travel
+- id: cooking-pot
+  name: Cooking Pot
+  kind: travel
+- id: mess-kit
+  name: Mess Kit
+  kind: travel
+- id: whetstone
+  name: Whetstone
+  kind: travel
+- id: sewing-kit
+  name: Sewing Kit
+  kind: travel
+- id: healer-s-kit
+  name: Healer's Kit
+  kind: travel
+- id: map-case
+  name: Map Case
+  kind: travel
+- id: chalk
+  name: Chalk
+  kind: travel
+- id: crowbar
+  name: Crowbar
+  kind: travel
+- id: shovel
+  name: Shovel
+  kind: travel
+maneuvers:
+- id: running
+  name: Running
+- id: swimming
+  name: Swimming
+- id: climbing
+  name: Climbing
+- id: traps
+  name: Traps
+- id: locks
+  name: Locks
+- id: persuasion
+  name: Persuasion
+- id: item-lore
+  name: Item Lore
+- id: stealing
+  name: Stealing
+- id: tracking
+  name: Tracking
+- id: hiding
+  name: Hiding
+- id: balancing
+  name: Balancing
+- id: general
+  name: General
+npcBaselines:
+- id: human-bard
+  race: Human
+  profession: Bard
+  array: Leader
+  stats:
+    Strength:
+      score: 62
+      bonus: 1
+    Agility:
+      score: 66
+      bonus: 1
+    Constitution:
+      score: 61
+      bonus: 1
+    Intelligence:
+      score: 70
+      bonus: 1
+    Presence:
+      score: 95
+      bonus: 4
+    Piety:
+      score: 50
+      bonus: 1
+  hits: 40
+  signature: Songs or Persuasion 5
+- id: human-berserker
+  race: Human
+  profession: Berserker
+  array: Physical
+  stats:
+    Strength:
+      score: 92
+      bonus: 3
+    Agility:
+      score: 76
+      bonus: 2
+    Constitution:
+      score: 81
+      bonus: 2
+    Intelligence:
+      score: 55
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 45
+      bonus: 0
+  hits: 45
+  signature: Primary Melee 5
+- id: human-cleric
+  race: Human
+  profession: Cleric
+  array: Devout
+  stats:
+    Strength:
+      score: 62
+      bonus: 1
+    Agility:
+      score: 56
+      bonus: 1
+    Constitution:
+      score: 71
+      bonus: 1
+    Intelligence:
+      score: 65
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 95
+      bonus: 4
+  hits: 40
+  signature: Prayer 5
+- id: human-conjuror
+  race: Human
+  profession: Conjuror
+  array: Scholar
+  stats:
+    Strength:
+      score: 47
+      bonus: 0
+    Agility:
+      score: 61
+      bonus: 1
+    Constitution:
+      score: 56
+      bonus: 1
+    Intelligence:
+      score: 95
+      bonus: 4
+    Presence:
+      score: 75
+      bonus: 1
+    Piety:
+      score: 70
+      bonus: 1
+  hits: 40
+  signature: Conjuring 5
+- id: human-fighter
+  race: Human
+  profession: Fighter
+  array: Physical
+  stats:
+    Strength:
+      score: 92
+      bonus: 3
+    Agility:
+      score: 76
+      bonus: 2
+    Constitution:
+      score: 81
+      bonus: 2
+    Intelligence:
+      score: 55
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 45
+      bonus: 0
+  hits: 45
+  signature: Primary Melee 5
+- id: human-paladin
+  race: Human
+  profession: Paladin
+  array: Devout
+  stats:
+    Strength:
+      score: 62
+      bonus: 1
+    Agility:
+      score: 56
+      bonus: 1
+    Constitution:
+      score: 71
+      bonus: 1
+    Intelligence:
+      score: 65
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 95
+      bonus: 4
+  hits: 40
+  signature: Prayer or Leadership 5
+- id: human-ranger
+  race: Human
+  profession: Ranger
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 62
+      bonus: 1
+    Agility:
+      score: 96
+      bonus: 4
+    Constitution:
+      score: 66
+      bonus: 1
+    Intelligence:
+      score: 60
+      bonus: 1
+    Presence:
+      score: 75
+      bonus: 1
+    Piety:
+      score: 45
+      bonus: 0
+  hits: 40
+  signature: Tracking or Primary Missile 5
+- id: human-rogue
+  race: Human
+  profession: Rogue
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 62
+      bonus: 1
+    Agility:
+      score: 96
+      bonus: 4
+    Constitution:
+      score: 66
+      bonus: 1
+    Intelligence:
+      score: 60
+      bonus: 1
+    Presence:
+      score: 75
+      bonus: 1
+    Piety:
+      score: 45
+      bonus: 0
+  hits: 40
+  signature: Stealing or Hiding 5
+- id: human-wizard
+  race: Human
+  profession: Wizard
+  array: Scholar
+  stats:
+    Strength:
+      score: 47
+      bonus: 0
+    Agility:
+      score: 61
+      bonus: 1
+    Constitution:
+      score: 56
+      bonus: 1
+    Intelligence:
+      score: 95
+      bonus: 4
+    Presence:
+      score: 75
+      bonus: 1
+    Piety:
+      score: 70
+      bonus: 1
+  hits: 40
+  signature: Wizardry 5
+- id: half-elf-bard
+  race: Half-Elf
+  profession: Bard
+  array: Leader
+  stats:
+    Strength:
+      score: 61
+      bonus: 1
+    Agility:
+      score: 67
+      bonus: 1
+    Constitution:
+      score: 61
+      bonus: 1
+    Intelligence:
+      score: 71
+      bonus: 1
+    Presence:
+      score: 96
+      bonus: 4
+    Piety:
+      score: 48
+      bonus: 0
+  hits: 40
+  signature: Songs or Persuasion 5
+- id: half-elf-conjuror
+  race: Half-Elf
+  profession: Conjuror
+  array: Scholar
+  stats:
+    Strength:
+      score: 46
+      bonus: 0
+    Agility:
+      score: 62
+      bonus: 1
+    Constitution:
+      score: 56
+      bonus: 1
+    Intelligence:
+      score: 96
+      bonus: 4
+    Presence:
+      score: 76
+      bonus: 2
+    Piety:
+      score: 68
+      bonus: 1
+  hits: 40
+  signature: Conjuring 5
+- id: half-elf-fighter
+  race: Half-Elf
+  profession: Fighter
+  array: Physical
+  stats:
+    Strength:
+      score: 91
+      bonus: 3
+    Agility:
+      score: 77
+      bonus: 2
+    Constitution:
+      score: 81
+      bonus: 2
+    Intelligence:
+      score: 56
+      bonus: 1
+    Presence:
+      score: 56
+      bonus: 1
+    Piety:
+      score: 43
+      bonus: 0
+  hits: 45
+  signature: Primary Melee 5
+- id: half-elf-ranger
+  race: Half-Elf
+  profession: Ranger
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 61
+      bonus: 1
+    Agility:
+      score: 97
+      bonus: 4
+    Constitution:
+      score: 66
+      bonus: 1
+    Intelligence:
+      score: 61
+      bonus: 1
+    Presence:
+      score: 76
+      bonus: 2
+    Piety:
+      score: 43
+      bonus: 0
+  hits: 40
+  signature: Tracking or Primary Missile 5
+- id: half-elf-rogue
+  race: Half-Elf
+  profession: Rogue
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 61
+      bonus: 1
+    Agility:
+      score: 97
+      bonus: 4
+    Constitution:
+      score: 66
+      bonus: 1
+    Intelligence:
+      score: 61
+      bonus: 1
+    Presence:
+      score: 76
+      bonus: 2
+    Piety:
+      score: 43
+      bonus: 0
+  hits: 40
+  signature: Stealing or Hiding 5
+- id: half-elf-wizard
+  race: Half-Elf
+  profession: Wizard
+  array: Scholar
+  stats:
+    Strength:
+      score: 46
+      bonus: 0
+    Agility:
+      score: 62
+      bonus: 1
+    Constitution:
+      score: 56
+      bonus: 1
+    Intelligence:
+      score: 96
+      bonus: 4
+    Presence:
+      score: 76
+      bonus: 2
+    Piety:
+      score: 68
+      bonus: 1
+  hits: 40
+  signature: Wizardry 5
+- id: elf-bard
+  race: Elf
+  profession: Bard
+  array: Leader
+  stats:
+    Strength:
+      score: 60
+      bonus: 1
+    Agility:
+      score: 68
+      bonus: 1
+    Constitution:
+      score: 60
+      bonus: 1
+    Intelligence:
+      score: 72
+      bonus: 1
+    Presence:
+      score: 97
+      bonus: 4
+    Piety:
+      score: 47
+      bonus: 0
+  hits: 40
+  signature: Songs or Persuasion 5
+- id: elf-conjuror
+  race: Elf
+  profession: Conjuror
+  array: Scholar
+  stats:
+    Strength:
+      score: 45
+      bonus: 0
+    Agility:
+      score: 63
+      bonus: 1
+    Constitution:
+      score: 55
+      bonus: 1
+    Intelligence:
+      score: 97
+      bonus: 4
+    Presence:
+      score: 77
+      bonus: 2
+    Piety:
+      score: 67
+      bonus: 1
+  hits: 40
+  signature: Conjuring 5
+- id: elf-ranger
+  race: Elf
+  profession: Ranger
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 60
+      bonus: 1
+    Agility:
+      score: 98
+      bonus: 4
+    Constitution:
+      score: 65
+      bonus: 1
+    Intelligence:
+      score: 62
+      bonus: 1
+    Presence:
+      score: 77
+      bonus: 2
+    Piety:
+      score: 42
+      bonus: 0
+  hits: 40
+  signature: Tracking or Primary Missile 5
+- id: elf-rogue
+  race: Elf
+  profession: Rogue
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 60
+      bonus: 1
+    Agility:
+      score: 98
+      bonus: 4
+    Constitution:
+      score: 65
+      bonus: 1
+    Intelligence:
+      score: 62
+      bonus: 1
+    Presence:
+      score: 77
+      bonus: 2
+    Piety:
+      score: 42
+      bonus: 0
+  hits: 40
+  signature: Stealing or Hiding 5
+- id: elf-wizard
+  race: Elf
+  profession: Wizard
+  array: Scholar
+  stats:
+    Strength:
+      score: 45
+      bonus: 0
+    Agility:
+      score: 63
+      bonus: 1
+    Constitution:
+      score: 55
+      bonus: 1
+    Intelligence:
+      score: 97
+      bonus: 4
+    Presence:
+      score: 77
+      bonus: 2
+    Piety:
+      score: 67
+      bonus: 1
+  hits: 40
+  signature: Wizardry 5
+- id: dwarf-berserker
+  race: Dwarf
+  profession: Berserker
+  array: Physical
+  stats:
+    Strength:
+      score: 92
+      bonus: 3
+    Agility:
+      score: 74
+      bonus: 1
+    Constitution:
+      score: 82
+      bonus: 2
+    Intelligence:
+      score: 55
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 46
+      bonus: 0
+  hits: 45
+  signature: Primary Melee 5
+- id: dwarf-cleric
+  race: Dwarf
+  profession: Cleric
+  array: Devout
+  stats:
+    Strength:
+      score: 62
+      bonus: 1
+    Agility:
+      score: 54
+      bonus: 1
+    Constitution:
+      score: 72
+      bonus: 1
+    Intelligence:
+      score: 65
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 96
+      bonus: 4
+  hits: 40
+  signature: Prayer 5
+- id: dwarf-conjuror
+  race: Dwarf
+  profession: Conjuror
+  array: Scholar
+  stats:
+    Strength:
+      score: 47
+      bonus: 0
+    Agility:
+      score: 59
+      bonus: 1
+    Constitution:
+      score: 57
+      bonus: 1
+    Intelligence:
+      score: 95
+      bonus: 4
+    Presence:
+      score: 75
+      bonus: 1
+    Piety:
+      score: 71
+      bonus: 1
+  hits: 40
+  signature: Conjuring 5
+- id: dwarf-fighter
+  race: Dwarf
+  profession: Fighter
+  array: Physical
+  stats:
+    Strength:
+      score: 92
+      bonus: 3
+    Agility:
+      score: 74
+      bonus: 1
+    Constitution:
+      score: 82
+      bonus: 2
+    Intelligence:
+      score: 55
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 46
+      bonus: 0
+  hits: 45
+  signature: Primary Melee 5
+- id: dwarf-paladin
+  race: Dwarf
+  profession: Paladin
+  array: Devout
+  stats:
+    Strength:
+      score: 62
+      bonus: 1
+    Agility:
+      score: 54
+      bonus: 1
+    Constitution:
+      score: 72
+      bonus: 1
+    Intelligence:
+      score: 65
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 96
+      bonus: 4
+  hits: 40
+  signature: Prayer or Leadership 5
+- id: dwarf-wizard
+  race: Dwarf
+  profession: Wizard
+  array: Scholar
+  stats:
+    Strength:
+      score: 47
+      bonus: 0
+    Agility:
+      score: 59
+      bonus: 1
+    Constitution:
+      score: 57
+      bonus: 1
+    Intelligence:
+      score: 95
+      bonus: 4
+    Presence:
+      score: 75
+      bonus: 1
+    Piety:
+      score: 71
+      bonus: 1
+  hits: 40
+  signature: Wizardry 5
+- id: halfling-bard
+  race: Halfling
+  profession: Bard
+  array: Leader
+  stats:
+    Strength:
+      score: 59
+      bonus: 1
+    Agility:
+      score: 67
+      bonus: 1
+    Constitution:
+      score: 60
+      bonus: 1
+    Intelligence:
+      score: 71
+      bonus: 1
+    Presence:
+      score: 97
+      bonus: 4
+    Piety:
+      score: 50
+      bonus: 1
+  hits: 40
+  signature: Songs or Persuasion 5
+- id: halfling-cleric
+  race: Halfling
+  profession: Cleric
+  array: Devout
+  stats:
+    Strength:
+      score: 59
+      bonus: 1
+    Agility:
+      score: 57
+      bonus: 1
+    Constitution:
+      score: 70
+      bonus: 1
+    Intelligence:
+      score: 66
+      bonus: 1
+    Presence:
+      score: 57
+      bonus: 1
+    Piety:
+      score: 95
+      bonus: 4
+  hits: 40
+  signature: Prayer 5
+- id: halfling-conjuror
+  race: Halfling
+  profession: Conjuror
+  array: Scholar
+  stats:
+    Strength:
+      score: 44
+      bonus: 0
+    Agility:
+      score: 62
+      bonus: 1
+    Constitution:
+      score: 55
+      bonus: 1
+    Intelligence:
+      score: 96
+      bonus: 4
+    Presence:
+      score: 77
+      bonus: 2
+    Piety:
+      score: 70
+      bonus: 1
+  hits: 40
+  signature: Conjuring 5
+- id: halfling-ranger
+  race: Halfling
+  profession: Ranger
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 59
+      bonus: 1
+    Agility:
+      score: 97
+      bonus: 4
+    Constitution:
+      score: 65
+      bonus: 1
+    Intelligence:
+      score: 61
+      bonus: 1
+    Presence:
+      score: 77
+      bonus: 2
+    Piety:
+      score: 45
+      bonus: 0
+  hits: 40
+  signature: Tracking or Primary Missile 5
+- id: halfling-rogue
+  race: Halfling
+  profession: Rogue
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 59
+      bonus: 1
+    Agility:
+      score: 97
+      bonus: 4
+    Constitution:
+      score: 65
+      bonus: 1
+    Intelligence:
+      score: 61
+      bonus: 1
+    Presence:
+      score: 77
+      bonus: 2
+    Piety:
+      score: 45
+      bonus: 0
+  hits: 40
+  signature: Stealing or Hiding 5
+- id: halfling-wizard
+  race: Halfling
+  profession: Wizard
+  array: Scholar
+  stats:
+    Strength:
+      score: 44
+      bonus: 0
+    Agility:
+      score: 62
+      bonus: 1
+    Constitution:
+      score: 55
+      bonus: 1
+    Intelligence:
+      score: 96
+      bonus: 4
+    Presence:
+      score: 77
+      bonus: 2
+    Piety:
+      score: 70
+      bonus: 1
+  hits: 40
+  signature: Wizardry 5
+- id: reptilian-berserker
+  race: Reptilian
+  profession: Berserker
+  array: Physical
+  stats:
+    Strength:
+      score: 92
+      bonus: 3
+    Agility:
+      score: 74
+      bonus: 1
+    Constitution:
+      score: 81
+      bonus: 2
+    Intelligence:
+      score: 55
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 47
+      bonus: 0
+  hits: 45
+  signature: Primary Melee 5
+- id: reptilian-cleric
+  race: Reptilian
+  profession: Cleric
+  array: Devout
+  stats:
+    Strength:
+      score: 62
+      bonus: 1
+    Agility:
+      score: 54
+      bonus: 1
+    Constitution:
+      score: 71
+      bonus: 1
+    Intelligence:
+      score: 65
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 97
+      bonus: 4
+  hits: 40
+  signature: Prayer 5
+- id: reptilian-conjuror
+  race: Reptilian
+  profession: Conjuror
+  array: Scholar
+  stats:
+    Strength:
+      score: 47
+      bonus: 0
+    Agility:
+      score: 59
+      bonus: 1
+    Constitution:
+      score: 56
+      bonus: 1
+    Intelligence:
+      score: 95
+      bonus: 4
+    Presence:
+      score: 75
+      bonus: 1
+    Piety:
+      score: 72
+      bonus: 1
+  hits: 40
+  signature: Conjuring 5
+- id: reptilian-fighter
+  race: Reptilian
+  profession: Fighter
+  array: Physical
+  stats:
+    Strength:
+      score: 92
+      bonus: 3
+    Agility:
+      score: 74
+      bonus: 1
+    Constitution:
+      score: 81
+      bonus: 2
+    Intelligence:
+      score: 55
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 47
+      bonus: 0
+  hits: 45
+  signature: Primary Melee 5
+- id: reptilian-paladin
+  race: Reptilian
+  profession: Paladin
+  array: Devout
+  stats:
+    Strength:
+      score: 62
+      bonus: 1
+    Agility:
+      score: 54
+      bonus: 1
+    Constitution:
+      score: 71
+      bonus: 1
+    Intelligence:
+      score: 65
+      bonus: 1
+    Presence:
+      score: 55
+      bonus: 1
+    Piety:
+      score: 97
+      bonus: 4
+  hits: 40
+  signature: Prayer or Leadership 5
+- id: reptilian-wizard
+  race: Reptilian
+  profession: Wizard
+  array: Scholar
+  stats:
+    Strength:
+      score: 47
+      bonus: 0
+    Agility:
+      score: 59
+      bonus: 1
+    Constitution:
+      score: 56
+      bonus: 1
+    Intelligence:
+      score: 95
+      bonus: 4
+    Presence:
+      score: 75
+      bonus: 1
+    Piety:
+      score: 72
+      bonus: 1
+  hits: 40
+  signature: Wizardry 5
+- id: orc-fighter
+  race: Orc
+  profession: Fighter
+  array: Physical
+  stats:
+    Strength:
+      score: 93
+      bonus: 3
+    Agility:
+      score: 75
+      bonus: 1
+    Constitution:
+      score: 82
+      bonus: 2
+    Intelligence:
+      score: 52
+      bonus: 1
+    Presence:
+      score: 54
+      bonus: 1
+    Piety:
+      score: 45
+      bonus: 0
+  hits: 45
+  signature: Primary Melee 5
+- id: orc-berserker
+  race: Orc
+  profession: Berserker
+  array: Physical
+  stats:
+    Strength:
+      score: 93
+      bonus: 3
+    Agility:
+      score: 75
+      bonus: 1
+    Constitution:
+      score: 82
+      bonus: 2
+    Intelligence:
+      score: 52
+      bonus: 1
+    Presence:
+      score: 54
+      bonus: 1
+    Piety:
+      score: 45
+      bonus: 0
+  hits: 45
+  signature: Primary Melee 5
+- id: orc-cleric
+  race: Orc
+  profession: Cleric
+  array: Devout
+  stats:
+    Strength:
+      score: 63
+      bonus: 1
+    Agility:
+      score: 55
+      bonus: 1
+    Constitution:
+      score: 72
+      bonus: 1
+    Intelligence:
+      score: 62
+      bonus: 1
+    Presence:
+      score: 54
+      bonus: 1
+    Piety:
+      score: 95
+      bonus: 4
+  hits: 40
+  signature: Prayer 5
+- id: feline-bard
+  race: Feline
+  profession: Bard
+  array: Leader
+  stats:
+    Strength:
+      score: 59
+      bonus: 1
+    Agility:
+      score: 68
+      bonus: 1
+    Constitution:
+      score: 60
+      bonus: 1
+    Intelligence:
+      score: 70
+      bonus: 1
+    Presence:
+      score: 98
+      bonus: 4
+    Piety:
+      score: 49
+      bonus: 0
+  hits: 40
+  signature: Songs or Persuasion 5
+- id: feline-conjuror
+  race: Feline
+  profession: Conjuror
+  array: Scholar
+  stats:
+    Strength:
+      score: 44
+      bonus: 0
+    Agility:
+      score: 63
+      bonus: 1
+    Constitution:
+      score: 55
+      bonus: 1
+    Intelligence:
+      score: 95
+      bonus: 4
+    Presence:
+      score: 78
+      bonus: 2
+    Piety:
+      score: 69
+      bonus: 1
+  hits: 40
+  signature: Conjuring 5
+- id: feline-ranger
+  race: Feline
+  profession: Ranger
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 59
+      bonus: 1
+    Agility:
+      score: 98
+      bonus: 4
+    Constitution:
+      score: 65
+      bonus: 1
+    Intelligence:
+      score: 60
+      bonus: 1
+    Presence:
+      score: 78
+      bonus: 2
+    Piety:
+      score: 44
+      bonus: 0
+  hits: 40
+  signature: Tracking or Primary Missile 5
+- id: feline-rogue
+  race: Feline
+  profession: Rogue
+  array: Skirmisher
+  stats:
+    Strength:
+      score: 59
+      bonus: 1
+    Agility:
+      score: 98
+      bonus: 4
+    Constitution:
+      score: 65
+      bonus: 1
+    Intelligence:
+      score: 60
+      bonus: 1
+    Presence:
+      score: 78
+      bonus: 2
+    Piety:
+      score: 44
+      bonus: 0
+  hits: 40
+  signature: Stealing or Hiding 5
+- id: feline-wizard
+  race: Feline
+  profession: Wizard
+  array: Scholar
+  stats:
+    Strength:
+      score: 44
+      bonus: 0
+    Agility:
+      score: 63
+      bonus: 1
+    Constitution:
+      score: 55
+      bonus: 1
+    Intelligence:
+      score: 95
+      bonus: 4
+    Presence:
+      score: 78
+      bonus: 2
+    Piety:
+      score: 69
+      bonus: 1
+  hits: 40
+  signature: Wizardry 5
+monsters:
+- id: goblin-rogue
+  name: Goblin
+  profession: Rogue
+  role: ambusher
+  overdrivenStat: null
+  signature: Stealing or Hiding 5
+- id: goblin-ranger
+  name: Goblin
+  profession: Ranger
+  role: skirmisher
+  overdrivenStat: null
+  signature: Tracking or Primary Missile 5
+- id: hobgoblin-fighter
+  name: Hobgoblin
+  profession: Fighter
+  role: soldier
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: hobgoblin-paladin
+  name: Hobgoblin
+  profession: Paladin
+  role: champion
+  overdrivenStat: null
+  signature: Prayer or Leadership 5
+- id: kobold-rogue
+  name: Kobold
+  profession: Rogue
+  role: trapper
+  overdrivenStat: null
+  signature: Stealing or Hiding 5
+- id: kobold-conjuror
+  name: Kobold
+  profession: Conjuror
+  role: hex worker
+  overdrivenStat: null
+  signature: Conjuring 5
+- id: orc-berserker
+  name: Orc
+  profession: Berserker
+  role: raider
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: orc-fighter
+  name: Orc
+  profession: Fighter
+  role: warrior
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: ogre-berserker
+  name: Ogre
+  profession: Berserker
+  role: brute
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: ogre-fighter
+  name: Ogre
+  profession: Fighter
+  role: club guard
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: troll-berserker
+  name: Troll
+  profession: Berserker
+  role: regenerator
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: troll-ranger
+  name: Troll
+  profession: Ranger
+  role: stalker
+  overdrivenStat: null
+  signature: Tracking or Primary Missile 5
+- id: skeleton-fighter
+  name: Skeleton
+  profession: Fighter
+  role: bone guard
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: skeleton-ranger
+  name: Skeleton
+  profession: Ranger
+  role: dead archer
+  overdrivenStat: null
+  signature: Tracking or Primary Missile 5
+- id: zombie-fighter
+  name: Zombie
+  profession: Fighter
+  role: shambler
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: zombie-berserker
+  name: Zombie
+  profession: Berserker
+  role: relentless dead
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: ghoul-rogue
+  name: Ghoul
+  profession: Rogue
+  role: grave ambusher
+  overdrivenStat: null
+  signature: Stealing or Hiding 5
+- id: ghoul-berserker
+  name: Ghoul
+  profession: Berserker
+  role: feeding frenzy
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: vampire-rogue
+  name: Vampire
+  profession: Rogue
+  role: night stalker
+  overdrivenStat: Governed skill effect x1.5
+  signature: Stealing or Hiding 5
+- id: vampire-conjuror
+  name: Vampire
+  profession: Conjuror
+  role: blood sorcerer
+  overdrivenStat: Governed skill effect x1.5
+  signature: Conjuring 5
+- id: werewolf-berserker
+  name: Werewolf
+  profession: Berserker
+  role: frenzied beast
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: werewolf-ranger
+  name: Werewolf
+  profession: Ranger
+  role: moon hunter
+  overdrivenStat: null
+  signature: Tracking or Primary Missile 5
+- id: giant-fighter
+  name: Giant
+  profession: Fighter
+  role: club warrior
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: giant-berserker
+  name: Giant
+  profession: Berserker
+  role: stone thrower
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: minotaur-fighter
+  name: Minotaur
+  profession: Fighter
+  role: maze guard
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: minotaur-berserker
+  name: Minotaur
+  profession: Berserker
+  role: charger
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: harpy-bard
+  name: Harpy
+  profession: Bard
+  role: song lure
+  overdrivenStat: null
+  signature: Songs or Persuasion 5
+- id: harpy-rogue
+  name: Harpy
+  profession: Rogue
+  role: aerial thief
+  overdrivenStat: null
+  signature: Stealing or Hiding 5
+- id: gargoyle-fighter
+  name: Gargoyle
+  profession: Fighter
+  role: stone sentinel
+  overdrivenStat: null
+  signature: Primary Melee 5
+- id: gargoyle-rogue
+  name: Gargoyle
+  profession: Rogue
+  role: statue ambusher
+  overdrivenStat: null
+  signature: Stealing or Hiding 5
+- id: dragon-fighter
+  name: Dragon
+  profession: Fighter
+  role: ancient terror
+  overdrivenStat: Governed skill effect x1.5
+  signature: Primary Melee 5
+- id: dragon-conjuror
+  name: Dragon
+  profession: Conjuror
+  role: breath caster
+  overdrivenStat: Governed skill effect x1.5
+  signature: Conjuring 5
+- id: lich-wizard
+  name: Lich
+  profession: Wizard
+  role: undead archmage
+  overdrivenStat: Governed skill effect x1.5
+  signature: Wizardry 5
+- id: lich-conjuror
+  name: Lich
+  profession: Conjuror
+  role: death summoner
+  overdrivenStat: Governed skill effect x1.5
+  signature: Conjuring 5
+- id: demon-berserker
+  name: Demon
+  profession: Berserker
+  role: fiendish brute
+  overdrivenStat: Governed skill effect x1.5
+  signature: Primary Melee 5
+- id: demon-conjuror
+  name: Demon
+  profession: Conjuror
+  role: hell caster
+  overdrivenStat: Governed skill effect x1.5
+  signature: Conjuring 5
+actions:
+- id: physical-attack-1h-edge
+  name: Attack with 1H Edge
+  kind: physicalAttack
+  referenceId: 1h-edge
+- id: physical-attack-2h-edge
+  name: Attack with 2H Edge
+  kind: physicalAttack
+  referenceId: 2h-edge
+- id: physical-attack-1h-conc
+  name: Attack with 1H Conc
+  kind: physicalAttack
+  referenceId: 1h-conc
+- id: physical-attack-2h-conc
+  name: Attack with 2H Conc
+  kind: physicalAttack
+  referenceId: 2h-conc
+- id: physical-attack-thrown
+  name: Attack with Thrown
+  kind: physicalAttack
+  referenceId: thrown
+- id: physical-attack-crossbow
+  name: Attack with Crossbow
+  kind: physicalAttack
+  referenceId: crossbow
+- id: physical-attack-shortbow
+  name: Attack with Shortbow
+  kind: physicalAttack
+  referenceId: shortbow
+- id: physical-attack-longbow
+  name: Attack with Longbow
+  kind: physicalAttack
+  referenceId: longbow
+- id: physical-attack-fist
+  name: Attack with Fist
+  kind: physicalAttack
+  referenceId: fist
+- id: physical-attack-claws
+  name: Attack with Claws
+  kind: physicalAttack
+  referenceId: claws
+- id: cast-spell-body-nauseate
+  name: Cast Nauseate
+  kind: spell
+  referenceId: body-nauseate
+- id: cast-spell-body-bolts
+  name: Cast Bolts
+  kind: spell
+  referenceId: body-bolts
+- id: cast-spell-body-hasten
+  name: Cast Hasten
+  kind: spell
+  referenceId: body-hasten
+- id: cast-spell-body-blasts
+  name: Cast Blasts
+  kind: spell
+  referenceId: body-blasts
+- id: cast-spell-body-crush
+  name: Cast Crush
+  kind: spell
+  referenceId: body-crush
+- id: cast-spell-body-displace
+  name: Cast Displace
+  kind: spell
+  referenceId: body-displace
+- id: cast-spell-body-break-bonds
+  name: Cast Break Bonds
+  kind: spell
+  referenceId: body-break-bonds
+- id: cast-spell-body-dissentegration
+  name: Cast Dissentegration
+  kind: spell
+  referenceId: body-dissentegration
+- id: cast-spell-mind-sleep
+  name: Cast Sleep
+  kind: spell
+  referenceId: mind-sleep
+- id: cast-spell-mind-fear
+  name: Cast Fear
+  kind: spell
+  referenceId: mind-fear
+- id: cast-spell-mind-focus
+  name: Cast Focus
+  kind: spell
+  referenceId: mind-focus
+- id: cast-spell-mind-confuse
+  name: Cast Confuse
+  kind: spell
+  referenceId: mind-confuse
+- id: cast-spell-mind-meditate
+  name: Cast Meditate
+  kind: spell
+  referenceId: mind-meditate
+- id: cast-spell-mind-read-mind
+  name: Cast Read Mind
+  kind: spell
+  referenceId: mind-read-mind
+- id: cast-spell-mind-mind-control
+  name: Cast Mind Control
+  kind: spell
+  referenceId: mind-mind-control
+- id: cast-spell-summoning-hawk
+  name: Cast Hawk
+  kind: spell
+  referenceId: summoning-hawk
+- id: cast-spell-summoning-dog
+  name: Cast Dog
+  kind: spell
+  referenceId: summoning-dog
+- id: cast-spell-summoning-cougar
+  name: Cast Cougar
+  kind: spell
+  referenceId: summoning-cougar
+- id: cast-spell-summoning-wolf
+  name: Cast Wolf
+  kind: spell
+  referenceId: summoning-wolf
+- id: cast-spell-summoning-bear
+  name: Cast Bear
+  kind: spell
+  referenceId: summoning-bear
+- id: cast-spell-summoning-pegasus
+  name: Cast Pegasus
+  kind: spell
+  referenceId: summoning-pegasus
+- id: cast-spell-summoning-golem
+  name: Cast Golem
+  kind: spell
+  referenceId: summoning-golem
+- id: cast-spell-summoning-dragon
+  name: Cast Dragon
+  kind: spell
+  referenceId: summoning-dragon
+- id: cast-spell-destroy-will
+  name: Cast Will
+  kind: spell
+  referenceId: destroy-will
+- id: cast-spell-destroy-mind
+  name: Cast Mind
+  kind: spell
+  referenceId: destroy-mind
+- id: cast-spell-destroy-body
+  name: Cast Body
+  kind: spell
+  referenceId: destroy-body
+- id: cast-spell-destroy-soul
+  name: Cast Soul
+  kind: spell
+  referenceId: destroy-soul
+- id: cast-spell-destroy-will-2
+  name: Cast Will 2
+  kind: spell
+  referenceId: destroy-will-2
+- id: cast-spell-destroy-mind-2
+  name: Cast Mind 2
+  kind: spell
+  referenceId: destroy-mind-2
+- id: cast-spell-destroy-body-2
+  name: Cast Body 2
+  kind: spell
+  referenceId: destroy-body-2
+- id: cast-spell-blessings-stop-bleeding
+  name: Cast Stop Bleeding
+  kind: spell
+  referenceId: blessings-stop-bleeding
+- id: cast-spell-blessings-turn-undead
+  name: Cast Turn Undead
+  kind: spell
+  referenceId: blessings-turn-undead
+- id: cast-spell-blessings-stop-poison
+  name: Cast Stop Poison
+  kind: spell
+  referenceId: blessings-stop-poison
+- id: cast-spell-blessings-heal
+  name: Cast Heal
+  kind: spell
+  referenceId: blessings-heal
+- id: cast-spell-blessings-stop-disease
+  name: Cast Stop Disease
+  kind: spell
+  referenceId: blessings-stop-disease
+- id: cast-spell-blessings-bless
+  name: Cast Bless
+  kind: spell
+  referenceId: blessings-bless
+- id: cast-spell-blessings-remove-curse
+  name: Cast Remove Curse
+  kind: spell
+  referenceId: blessings-remove-curse
+- id: cast-spell-blessings-revive-dead
+  name: Cast Revive Dead
+  kind: spell
+  referenceId: blessings-revive-dead
+- id: cast-spell-curses-weaken
+  name: Cast Weaken
+  kind: spell
+  referenceId: curses-weaken
+- id: cast-spell-curses-cause-fear
+  name: Cast Cause Fear
+  kind: spell
+  referenceId: curses-cause-fear
+- id: cast-spell-curses-cause-bleeding
+  name: Cast Cause Bleeding
+  kind: spell
+  referenceId: curses-cause-bleeding
+- id: cast-spell-curses-remove-blessing
+  name: Cast Remove Blessing
+  kind: spell
+  referenceId: curses-remove-blessing
+- id: cast-spell-curses-harm
+  name: Cast Harm
+  kind: spell
+  referenceId: curses-harm
+- id: cast-spell-curses-curse
+  name: Cast Curse
+  kind: spell
+  referenceId: curses-curse
+- id: cast-spell-curses-infection
+  name: Cast Infection
+  kind: spell
+  referenceId: curses-infection
+- id: cast-spell-leadership-embolden
+  name: Cast Embolden
+  kind: spell
+  referenceId: leadership-embolden
+- id: cast-spell-leadership-restore
+  name: Cast Restore
+  kind: spell
+  referenceId: leadership-restore
+- id: cast-spell-leadership-bless
+  name: Cast Bless
+  kind: spell
+  referenceId: leadership-bless
+- id: cast-spell-leadership-antidote
+  name: Cast Antidote
+  kind: spell
+  referenceId: leadership-antidote
+- id: cast-spell-leadership-cure
+  name: Cast Cure
+  kind: spell
+  referenceId: leadership-cure
+- id: cast-spell-naturalist-track
+  name: Cast Track
+  kind: spell
+  referenceId: naturalist-track
+- id: cast-spell-naturalist-sure-shot
+  name: Cast Sure Shot
+  kind: spell
+  referenceId: naturalist-sure-shot
+- id: cast-spell-naturalist-unseen
+  name: Cast Unseen
+  kind: spell
+  referenceId: naturalist-unseen
+- id: cast-spell-naturalist-bandage
+  name: Cast Bandage
+  kind: spell
+  referenceId: naturalist-bandage
+- id: cast-spell-naturalist-discover
+  name: Cast Discover
+  kind: spell
+  referenceId: naturalist-discover
+- id: cast-spell-songs-strengthen
+  name: Cast Strengthen
+  kind: spell
+  referenceId: songs-strengthen
+- id: cast-spell-songs-quicken
+  name: Cast Quicken
+  kind: spell
+  referenceId: songs-quicken
+- id: cast-spell-songs-fortify
+  name: Cast Fortify
+  kind: spell
+  referenceId: songs-fortify
+- id: cast-spell-songs-reveal
+  name: Cast Reveal
+  kind: spell
+  referenceId: songs-reveal
+- id: cast-spell-songs-calm
+  name: Cast Calm
+  kind: spell
+  referenceId: songs-calm
+- id: cast-spell-songs-anxiety
+  name: Cast Anxiety
+  kind: spell
+  referenceId: songs-anxiety
+- id: cast-spell-songs-heal
+  name: Cast Heal
+  kind: spell
+  referenceId: songs-heal
+- id: cast-spell-necromancer-grave-sense
+  name: Cast Grave Sense
+  kind: spell
+  referenceId: necromancer-grave-sense
+- id: cast-spell-necromancer-death-whisper
+  name: Cast Death Whisper
+  kind: spell
+  referenceId: necromancer-death-whisper
+- id: cast-spell-necromancer-bone-servant
+  name: Cast Bone Servant
+  kind: spell
+  referenceId: necromancer-bone-servant
+- id: cast-spell-necromancer-command-undead
+  name: Cast Command Undead
+  kind: spell
+  referenceId: necromancer-command-undead
+- id: cast-spell-necromancer-life-drain
+  name: Cast Life Drain
+  kind: spell
+  referenceId: necromancer-life-drain
+- id: cast-spell-necromancer-animate-dead
+  name: Cast Animate Dead
+  kind: spell
+  referenceId: necromancer-animate-dead
+- id: cast-spell-necromancer-bind-spirit
+  name: Cast Bind Spirit
+  kind: spell
+  referenceId: necromancer-bind-spirit
+- id: cast-spell-necromancer-lichdom
+  name: Cast Lichdom
+  kind: spell
+  referenceId: necromancer-lichdom
+- id: maneuver-running
+  name: Running maneuver
+  kind: maneuver
+  referenceId: running
+- id: maneuver-swimming
+  name: Swimming maneuver
+  kind: maneuver
+  referenceId: swimming
+- id: maneuver-climbing
+  name: Climbing maneuver
+  kind: maneuver
+  referenceId: climbing
+- id: maneuver-traps
+  name: Traps maneuver
+  kind: maneuver
+  referenceId: traps
+- id: maneuver-locks
+  name: Locks maneuver
+  kind: maneuver
+  referenceId: locks
+- id: maneuver-persuasion
+  name: Persuasion maneuver
+  kind: maneuver
+  referenceId: persuasion
+- id: maneuver-item-lore
+  name: Item Lore maneuver
+  kind: maneuver
+  referenceId: item-lore
+- id: maneuver-stealing
+  name: Stealing maneuver
+  kind: maneuver
+  referenceId: stealing
+- id: maneuver-tracking
+  name: Tracking maneuver
+  kind: maneuver
+  referenceId: tracking
+- id: maneuver-hiding
+  name: Hiding maneuver
+  kind: maneuver
+  referenceId: hiding
+- id: maneuver-balancing
+  name: Balancing maneuver
+  kind: maneuver
+  referenceId: balancing
+- id: maneuver-general
+  name: General maneuver
+  kind: maneuver
+  referenceId: general
+- id: equip-armor-none
+  name: Equip None
+  kind: equipArmor
+  referenceId: none
+- id: equip-armor-robes
+  name: Equip Robes
+  kind: equipArmor
+  referenceId: robes
+- id: equip-armor-cloth
+  name: Equip Cloth
+  kind: equipArmor
+  referenceId: cloth
+- id: equip-armor-soft-leather
+  name: Equip Soft Leather
+  kind: equipArmor
+  referenceId: soft-leather
+- id: equip-armor-rigid-leather
+  name: Equip Rigid Leather
+  kind: equipArmor
+  referenceId: rigid-leather
+- id: equip-armor-chain
+  name: Equip Chain
+  kind: equipArmor
+  referenceId: chain
+- id: equip-armor-scale
+  name: Equip Scale
+  kind: equipArmor
+  referenceId: scale
+- id: equip-armor-plate
+  name: Equip Plate
+  kind: equipArmor
+  referenceId: plate
+- id: equip-armor-helm
+  name: Equip Helm
+  kind: equipArmor
+  referenceId: helm
+- id: equip-armor-shield
+  name: Equip Shield
+  kind: equipArmor
+  referenceId: shield
+- id: use-item-short-sword
+  name: Use Short Sword
+  kind: item
+  referenceId: short-sword
+- id: use-item-broadsword
+  name: Use Broadsword
+  kind: item
+  referenceId: broadsword
+- id: use-item-feline-claws
+  name: Use Feline Claws
+  kind: item
+  referenceId: feline-claws
+- id: use-item-none
+  name: Use None
+  kind: item
+  referenceId: none
+- id: use-item-robes
+  name: Use Robes
+  kind: item
+  referenceId: robes
+- id: use-item-cloth
+  name: Use Cloth
+  kind: item
+  referenceId: cloth
+- id: use-item-soft-leather
+  name: Use Soft Leather
+  kind: item
+  referenceId: soft-leather
+- id: use-item-rigid-leather
+  name: Use Rigid Leather
+  kind: item
+  referenceId: rigid-leather
+- id: use-item-chain
+  name: Use Chain
+  kind: item
+  referenceId: chain
+- id: use-item-scale
+  name: Use Scale
+  kind: item
+  referenceId: scale
+- id: use-item-plate
+  name: Use Plate
+  kind: item
+  referenceId: plate
+- id: use-item-helm
+  name: Use Helm
+  kind: item
+  referenceId: helm
+- id: use-item-shield
+  name: Use Shield
+  kind: item
+  referenceId: shield
+- id: use-item-backpack
+  name: Use Backpack
+  kind: item
+  referenceId: backpack
+- id: use-item-bedroll
+  name: Use Bedroll
+  kind: item
+  referenceId: bedroll
+- id: use-item-blanket
+  name: Use Blanket
+  kind: item
+  referenceId: blanket
+- id: use-item-cloak-hooded
+  name: Use Cloak, Hooded
+  kind: item
+  referenceId: cloak-hooded
+- id: use-item-waterskin
+  name: Use Waterskin
+  kind: item
+  referenceId: waterskin
+- id: use-item-trail-rations
+  name: Use Trail Rations
+  kind: item
+  referenceId: trail-rations
+- id: use-item-tinderbox
+  name: Use Tinderbox
+  kind: item
+  referenceId: tinderbox
+- id: use-item-torch
+  name: Use Torch
+  kind: item
+  referenceId: torch
+- id: use-item-lantern
+  name: Use Lantern
+  kind: item
+  referenceId: lantern
+- id: use-item-oil-flask
+  name: Use Oil Flask
+  kind: item
+  referenceId: oil-flask
+- id: use-item-rope-50-feet
+  name: Use Rope, 50 feet
+  kind: item
+  referenceId: rope-50-feet
+- id: use-item-grappling-hook
+  name: Use Grappling Hook
+  kind: item
+  referenceId: grappling-hook
+- id: use-item-tent-small
+  name: Use Tent, Small
+  kind: item
+  referenceId: tent-small
+- id: use-item-cooking-pot
+  name: Use Cooking Pot
+  kind: item
+  referenceId: cooking-pot
+- id: use-item-mess-kit
+  name: Use Mess Kit
+  kind: item
+  referenceId: mess-kit
+- id: use-item-whetstone
+  name: Use Whetstone
+  kind: item
+  referenceId: whetstone
+- id: use-item-sewing-kit
+  name: Use Sewing Kit
+  kind: item
+  referenceId: sewing-kit
+- id: use-item-healer-s-kit
+  name: Use Healer's Kit
+  kind: item
+  referenceId: healer-s-kit
+- id: use-item-map-case
+  name: Use Map Case
+  kind: item
+  referenceId: map-case
+- id: use-item-chalk
+  name: Use Chalk
+  kind: item
+  referenceId: chalk
+- id: use-item-crowbar
+  name: Use Crowbar
+  kind: item
+  referenceId: crowbar
+- id: use-item-shovel
+  name: Use Shovel
+  kind: item
+  referenceId: shovel
+- id: apply-condition
+  name: Apply condition
+  kind: system
+  referenceId: null
+- id: damage-target
+  name: Damage target
+  kind: system
+  referenceId: null
+- id: heal-target
+  name: Heal target
+  kind: system
+  referenceId: null
+- id: defend
+  name: Defend
+  kind: system
+  referenceId: null
+knownGaps:
+- id: gap-adjudication
+  description: Rules without deterministic executable detail return requiresAdjudication true.

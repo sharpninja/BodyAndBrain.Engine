@@ -1,0 +1,10 @@
+AGENTS-README-FIRST.yaml
+.mcpServer/
+mcp.db
+bin/
+obj/
+.vs/
+TestResults/
+docs/todo.yaml
+*.user
+*.suo

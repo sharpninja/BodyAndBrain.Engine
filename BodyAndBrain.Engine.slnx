@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/BodyAndBrain.Engine/BodyAndBrain.Engine.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/BodyAndBrain.Engine.Tests/BodyAndBrain.Engine.Tests.csproj" />
+  </Folder>
+</Solution>
