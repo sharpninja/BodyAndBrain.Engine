@@ -31,6 +31,7 @@ Coverage status:
 | Actions | Every catalog action dispatches through CQRS and emits the required YAML result shape. |
 | Defined inventory | Race, profession, apprenticeship, spell, weapon, armor, item, maneuver, NPC baseline, and monster definitions are enumerated by tests. |
 | Underspecified mechanics | Spell/item effects without deterministic canonical rules return `requiresAdjudication: true` with stable reason codes. |
+| CI validation | Azure Pipelines uses the self-hosted `Default` pool and runs `dotnet test BodyAndBrain.Engine.slnx`. |
 
 Exceptional monsters:
 
@@ -46,3 +47,5 @@ Validation command:
 ```powershell
 dotnet test BodyAndBrain.Engine.slnx
 ```
+
+Latest local result: 9 passed, 0 failed, 0 skipped.

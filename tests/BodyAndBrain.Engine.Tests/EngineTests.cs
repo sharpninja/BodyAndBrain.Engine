@@ -5,10 +5,30 @@ using YamlDotNet.Serialization;
 
 namespace BodyAndBrain.Engine.Tests;
 
+/// <summary>
+/// Dispatch-level requirement coverage for the BodyAndBrain.Engine MCP requirements set.
+/// </summary>
+/// <remarks>
+/// Requirement coverage matrix:
+/// FR-ENGINE-001, TR-ENGINE-DI-001, TR-ENGINE-NET-001, TEST-CQRS-001 are covered by CQRS query/command tests.
+/// FR-DATA-001, TR-DATA-YAML-001, TEST-COVERAGE-001 are covered by catalog load, validation, and inventory tests.
+/// FR-CHARACTER-001, TR-DATA-LITEDB-001, TEST-PERSISTENCE-001 are covered by PC/NPC LiteDB round-trip and action mutation tests.
+/// FR-NPC-001 and TEST-NPC-001 are covered by NPC markdown and all valid race/profession boundary-level generation tests.
+/// FR-ACTIONS-001, FR-ADJUDICATION-001, TEST-ACTION-001, and TEST-CQRS-001 are covered by action execution and adjudication tests.
+/// FR-MONSTERS-001 is covered by monster inventory and exceptional-overdrive assertions.
+/// FR-CI-001, TR-CI-AZURE-001, and TEST-CI-001 are covered by the Azure pipeline validation test.
+/// </remarks>
 public sealed class EngineTests
 {
     private static readonly IDeserializer YamlDeserializer = new DeserializerBuilder().Build();
 
+    /// <summary>
+    /// Verifies FR-DATA-001, TR-DATA-YAML-001, TEST-COVERAGE-001, and TEST-CQRS-001.
+    /// </summary>
+    /// <remarks>
+    /// The catalog must load through <see cref="IDispatcher.QueryAsync{TResult}(IQuery{TResult}, CancellationToken)"/>,
+    /// include canonical workbook/manual entities, and pass catalog validation diagnostics.
+    /// </remarks>
     [Fact]
     public async Task CatalogLoadsAndValidatesThroughCqrsQuery()
     {
@@ -32,6 +52,12 @@ public sealed class EngineTests
         Assert.True(validationResult.Value!.IsValid, string.Join(Environment.NewLine, validationResult.Value.Diagnostics));
     }
 
+    /// <summary>
+    /// Verifies FR-ENGINE-001, FR-CHARACTER-001, TR-DATA-LITEDB-001, TEST-CQRS-001, and TEST-PERSISTENCE-001.
+    /// </summary>
+    /// <remarks>
+    /// Player character creation, level-up mutation, and load queries must dispatch through CQRS and persist structured LiteDB state.
+    /// </remarks>
     [Fact]
     public async Task CreateLevelAndLoadPlayerCharacterThroughCqrs()
     {
@@ -56,6 +82,12 @@ public sealed class EngineTests
         Assert.Equal(1, loadedResult.Value.Skills["Primary Melee"]);
     }
 
+    /// <summary>
+    /// Verifies FR-CHARACTER-001, FR-NPC-001, TR-ENGINE-DI-001, TEST-CQRS-001, and TEST-NPC-001.
+    /// </summary>
+    /// <remarks>
+    /// Persisted NPC generation and markdown sheet rendering must be available through CQRS commands and queries.
+    /// </remarks>
     [Fact]
     public async Task GenerateNpcAndRenderMarkdownThroughCqrs()
     {
@@ -72,6 +104,12 @@ public sealed class EngineTests
         Assert.Contains("| Stat | Score | Bonus |", markdownResult.Value);
     }
 
+    /// <summary>
+    /// Verifies FR-ACTIONS-001, FR-CHARACTER-001, TR-DATA-LITEDB-001, TEST-ACTION-001, and TEST-PERSISTENCE-001.
+    /// </summary>
+    /// <remarks>
+    /// A deterministic physical attack must emit the required YAML result and mutate target hit state through the command handler.
+    /// </remarks>
     [Fact]
     public async Task PhysicalAttackReturnsYamlAndMutatesTargetHits()
     {
@@ -101,6 +139,12 @@ public sealed class EngineTests
         Assert.Equal(target.CurrentHits - 6, reloadedTarget.Value!.CurrentHits);
     }
 
+    /// <summary>
+    /// Verifies FR-ADJUDICATION-001, FR-ACTIONS-001, TR-DATA-YAML-001, TEST-ACTION-001, and TEST-CQRS-001.
+    /// </summary>
+    /// <remarks>
+    /// Underspecified spell mechanics must still dispatch successfully and return YAML with a stable adjudication reason.
+    /// </remarks>
     [Fact]
     public async Task SpellWithoutDeterministicRuleReturnsAdjudicationYaml()
     {
@@ -117,6 +161,13 @@ public sealed class EngineTests
         Assert.Contains("GM adjudication", ((Dictionary<object, object?>)yaml["outcome"]!)["result"]!.ToString());
     }
 
+    /// <summary>
+    /// Verifies FR-ACTIONS-001, FR-ENGINE-001, TR-ENGINE-DI-001, TEST-ACTION-001, and TEST-CQRS-001.
+    /// </summary>
+    /// <remarks>
+    /// Every catalog action must dispatch through <see cref="IDispatcher.SendAsync{TResult}(ICommand{TResult}, CancellationToken)"/>
+    /// and emit the required YAML action-result shape.
+    /// </remarks>
     [Fact]
     public async Task EveryCatalogActionDispatchesThroughCqrsAndReturnsRequiredYamlShape()
     {
@@ -139,6 +190,12 @@ public sealed class EngineTests
         }
     }
 
+    /// <summary>
+    /// Verifies FR-NPC-001, FR-CHARACTER-001, TEST-NPC-001, and TEST-COVERAGE-001.
+    /// </summary>
+    /// <remarks>
+    /// Every valid race/profession combination must generate at representative boundary levels from the 1-50 NPC scale.
+    /// </remarks>
     [Fact]
     public async Task EveryValidNpcCombinationGeneratesAtBoundaryLevelsThroughCqrs()
     {
@@ -163,6 +220,13 @@ public sealed class EngineTests
         }
     }
 
+    /// <summary>
+    /// Verifies FR-DATA-001, FR-MONSTERS-001, FR-ACTIONS-001, TR-DATA-YAML-001, TEST-COVERAGE-001, and TEST-NPC-001.
+    /// </summary>
+    /// <remarks>
+    /// The embedded catalog must provide test-enforced inventory coverage for canonical races, professions, apprenticeships,
+    /// spells, weapons, armor, items, maneuvers, NPC baselines, monsters, exceptional overdrive, and action references.
+    /// </remarks>
     [Fact]
     public void InventoryCoverageIncludesDefinitionsRequiredByPlan()
     {
@@ -215,6 +279,32 @@ public sealed class EngineTests
         Assert.All(exceptionalMonsters, monster => Assert.Contains("x1.5", monster.OverdrivenStat));
     }
 
+    /// <summary>
+    /// Verifies FR-CI-001, TR-CI-AZURE-001, and TEST-CI-001.
+    /// </summary>
+    /// <remarks>
+    /// The Azure DevOps pipeline must use the self-hosted Default pool and execute the solution-level test gate.
+    /// </remarks>
+    [Fact]
+    public void AzurePipelineUsesDefaultPoolAndSolutionTestGate()
+    {
+        var pipelinePath = Path.Combine(FindRepositoryRoot(), "azure-pipelines.yml");
+        var yaml = File.ReadAllText(pipelinePath);
+        var pipeline = ParseYaml(yaml);
+
+        var pool = Assert.IsType<Dictionary<object, object?>>(pipeline["pool"]);
+        Assert.Equal("Default", pool["name"]);
+
+        var steps = Assert.IsAssignableFrom<IList<object>>(pipeline["steps"]);
+        var testStep = steps
+            .OfType<Dictionary<object, object?>>()
+            .SingleOrDefault(step => step.TryGetValue("displayName", out var displayName)
+                                     && string.Equals(displayName?.ToString(), "Test", StringComparison.Ordinal));
+
+        Assert.NotNull(testStep);
+        Assert.Equal("dotnet test BodyAndBrain.Engine.slnx", testStep!["pwsh"]);
+    }
+
     private static ServiceProvider CreateServices()
     {
         var services = new ServiceCollection();
@@ -261,4 +351,18 @@ public sealed class EngineTests
             string text => bool.Parse(text),
             _ => throw new InvalidOperationException($"Value '{value}' is not a boolean."),
         };
+
+    private static string FindRepositoryRoot()
+    {
+        var directory = new DirectoryInfo(AppContext.BaseDirectory);
+        while (directory is not null)
+        {
+            if (File.Exists(Path.Combine(directory.FullName, "BodyAndBrain.Engine.slnx")))
+                return directory.FullName;
+
+            directory = directory.Parent;
+        }
+
+        throw new InvalidOperationException("Repository root containing BodyAndBrain.Engine.slnx was not found.");
+    }
 }
