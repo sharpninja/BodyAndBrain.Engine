@@ -20,6 +20,16 @@ The solution test gate must pass with zero failed tests and zero skipped tests.
 - [x] dotnet test BodyAndBrain.Engine.slnx passes with 9 tests, 0 failures, and 0 skipped. (evidence: docs/Parity-Report.md)
 
 
+## TEST-COMBAT
+
+### TEST-COMBAT-001
+
+Dispatch physical attacks across all weapons and armor profiles asserting accuracy, critical resolution, and protection blocks in the YAML result.
+
+**Acceptance Criteria:**
+- [ ] Attacks surface accuracy, critical (Slash/Crush/Puncture/Claw), and protection in YAML and apply reduced damage.
+
+
 ## TEST-COVERAGE
 
 ### TEST-COVERAGE-001
@@ -42,6 +52,26 @@ Unit tests must dispatch all command/query behavior through IDispatcher, includi
 - [x] CQRS command failure, query reads, action YAML, and persistence behaviors are covered. (evidence: tests/BodyAndBrain.Engine.Tests/EngineTests.cs)
 
 
+## TEST-FALLBACK
+
+### TEST-FALLBACK-001
+
+Assert every race by profession combination, including non-default combinations, generates an NPC via the derivation fallback at boundary levels.
+
+**Acceptance Criteria:**
+- [ ] All race by profession combinations generate at levels 1, 5, and 50 with clamped stats.
+
+
+## TEST-MONSTER
+
+### TEST-MONSTER-001
+
+Dispatch GenerateMonsterCommand for every catalog monster at boundary levels and assert IsMonster true, Monster name, scaled stats, and overdriven stat name where applicable.
+
+**Acceptance Criteria:**
+- [ ] Every catalog monster generates via IDispatcher at levels 1, 5, and 50 with IsMonster true.
+
+
 ## TEST-NPC
 
 ### TEST-NPC-001
@@ -52,6 +82,16 @@ Tests must cover valid race/profession combinations, boundary levels, markdown r
 - [x] Every valid race/profession combination generates at levels 1, 5, and 50. (evidence: tests/BodyAndBrain.Engine.Tests/EngineTests.cs)
 
 
+## TEST-OVERDRIVE
+
+### TEST-OVERDRIVE-001
+
+Assert an overdriven monster governed-stat action effect is multiplied by 1.5 versus a non-overdriven baseline.
+
+**Acceptance Criteria:**
+- [ ] Overdriven governed-stat effect is 1.5x the ordinary result and surfaces an overdrive block.
+
+
 ## TEST-PERSISTENCE
 
 ### TEST-PERSISTENCE-001
@@ -60,3 +100,33 @@ Tests must verify create, load, update, NPC persistence, and action-log behavior
 
 **Acceptance Criteria:**
 - [x] PC create/load/level-up and NPC action mutation round-trip through LiteDB. (evidence: tests/BodyAndBrain.Engine.Tests/EngineTests.cs)
+
+
+## TEST-ROLL
+
+### TEST-ROLL-001
+
+Assert IBodyAndBrainEngine.ExecuteActionAsync forwards an injected rollOverride to the dispatched command and result.
+
+**Acceptance Criteria:**
+- [ ] ExecuteActionAsync rollOverride produces the deterministic roll in the YAML result.
+
+
+## TEST-SPELL
+
+### TEST-SPELL-001
+
+Dispatch each kind spell action asserting damage, heal, or effect resolution, or adjudication where the spell is genuinely underspecified.
+
+**Acceptance Criteria:**
+- [ ] Damage and heal spells mutate hits; underspecified spells keep requiresAdjudication.
+
+
+## TEST-STATUS
+
+### TEST-STATUS-001
+
+Dispatch apply-condition for each canonical status and assert structured state, per-round tick, and resistance resolution.
+
+**Acceptance Criteria:**
+- [ ] Bleed, Poison, Disease, Stun, Move, and Curse produce mechanical state, ticks, and resistance rolls.

@@ -26,6 +26,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IGameStore>(_ => new LiteDbGameStore(options.StorePath));
         services.AddSingleton<IDiceRoller, RandomDiceRoller>();
         services.AddSingleton<NpcGenerator>();
+        services.AddSingleton<MonsterGenerator>();
         services.AddSingleton<NpcMarkdownRenderer>();
         services.AddSingleton<ActionExecutor>();
         services.AddSingleton<IBodyAndBrainEngine, BodyAndBrainEngineClient>();
@@ -56,11 +57,23 @@ public interface IBodyAndBrainEngine
         string? name = null,
         CancellationToken ct = default);
 
+    Task<NpcRecord> GenerateMonsterAsync(
+        string monsterId,
+        int level,
+        string? name = null,
+        CancellationToken ct = default);
+
     Task<YamlActionResult> ExecuteActionAsync(
         string actionId,
         string actorId,
         string? targetId = null,
+        int? rollOverride = null,
         Dictionary<string, string>? parameters = null,
+        CancellationToken ct = default);
+
+    Task<YamlActionResult> TickStatusEffectsAsync(
+        string targetId,
+        int? rollOverride = null,
         CancellationToken ct = default);
 }
 
@@ -104,15 +117,39 @@ public sealed class BodyAndBrainEngineClient(IDispatcher dispatcher) : IBodyAndB
         return result.IsSuccess ? result.Value! : throw new InvalidOperationException(result.Error, result.Exception);
     }
 
+    public async Task<NpcRecord> GenerateMonsterAsync(
+        string monsterId,
+        int level,
+        string? name = null,
+        CancellationToken ct = default)
+    {
+        var result = await dispatcher.SendAsync(
+            new GenerateMonsterCommand(monsterId, level, name),
+            ct).ConfigureAwait(false);
+        return result.IsSuccess ? result.Value! : throw new InvalidOperationException(result.Error, result.Exception);
+    }
+
     public async Task<YamlActionResult> ExecuteActionAsync(
         string actionId,
         string actorId,
         string? targetId = null,
+        int? rollOverride = null,
         Dictionary<string, string>? parameters = null,
         CancellationToken ct = default)
     {
         var result = await dispatcher.SendAsync(
-            new ExecuteGameActionCommand(actionId, actorId, targetId, Parameters: parameters),
+            new ExecuteGameActionCommand(actionId, actorId, targetId, rollOverride, parameters),
+            ct).ConfigureAwait(false);
+        return result.IsSuccess ? result.Value! : throw new InvalidOperationException(result.Error, result.Exception);
+    }
+
+    public async Task<YamlActionResult> TickStatusEffectsAsync(
+        string targetId,
+        int? rollOverride = null,
+        CancellationToken ct = default)
+    {
+        var result = await dispatcher.SendAsync(
+            new TickStatusEffectsCommand(targetId, rollOverride),
             ct).ConfigureAwait(false);
         return result.IsSuccess ? result.Value! : throw new InvalidOperationException(result.Error, result.Exception);
     }

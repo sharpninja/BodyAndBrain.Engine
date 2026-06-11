@@ -98,6 +98,13 @@ public sealed class ArmorDefinition
     public string Name { get; set; } = "";
     public string Profile { get; set; } = "";
     public bool Metal { get; set; }
+
+    /// <summary>
+    /// Engine-derived damage-reduction percent overlay (NOT canonical BaB; BaB models armor as
+    /// accuracy mitigation via the Base Attack Bonus table). Surfaced for downstream consumers
+    /// that expect a protection percent. Optional; derived from <see cref="Profile"/> when omitted.
+    /// </summary>
+    public int? ProtectionPercent { get; set; }
 }
 
 public sealed class ItemDefinition
@@ -136,7 +143,22 @@ public sealed class MonsterDefinition
     public string Name { get; set; } = "";
     public string Profession { get; set; } = "";
     public string Role { get; set; } = "";
+
+    /// <summary>
+    /// Name of the overdriven governing stat (e.g. Strength, Agility, Intelligence) for exceptional
+    /// monsters, or null. Governed-skill effects of this stat are increased x1.5 during resolution.
+    /// </summary>
     public string? OverdrivenStat { get; set; }
+
+    /// <summary>Human-readable overdrive effect label from the manual ("Governed skill effect x1.5"); empty for ordinary monsters.</summary>
+    public string OverdriveEffect { get; set; } = "";
+
+    /// <summary>Canonical level-5 baseline stat scores from the 8-Non-Player_Characters monster table.</summary>
+    public Dictionary<string, int> Stats { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>Canonical level-5 baseline hits from the monster table.</summary>
+    public int Hits { get; set; }
+
     public string Signature { get; set; } = "";
 }
 

@@ -134,9 +134,23 @@ public sealed class EngineTests
         Assert.False(AsBoolean(yaml["requiresAdjudication"]));
         Assert.True(((IList<object>)yaml["stateChanges"]!).Count > 0);
 
+        // FR-PHYSATTACK-001: canonical accuracy, critical, and protection are surfaced in the YAML.
+        var outcome = (Dictionary<object, object?>)yaml["outcome"]!;
+        var accuracy = (Dictionary<object, object?>)outcome["accuracy"]!;
+        Assert.Contains("weaponSkillBonus", accuracy.Keys);
+        Assert.Contains("governingStatBonus", accuracy.Keys);
+        Assert.Contains("baseAttackBonus", accuracy.Keys);
+        Assert.Contains("total", accuracy.Keys);
+        Assert.NotNull(outcome["critical"]); // roll 80 is Hit + Critical
+        var protection = (Dictionary<object, object?>)outcome["protection"]!;
+        Assert.Equal("None", protection["armorProfile"]);
+
+        var damage = int.Parse(outcome["damage"]!.ToString()!);
+        Assert.True(damage >= 6, "Critical resolution must add to the base 6 damage.");
+
         var reloadedTarget = await dispatcher.QueryAsync(new GetNpcQuery(target.Id));
         AssertSuccess(reloadedTarget);
-        Assert.Equal(target.CurrentHits - 6, reloadedTarget.Value!.CurrentHits);
+        Assert.Equal(target.CurrentHits - damage, reloadedTarget.Value!.CurrentHits);
     }
 
     /// <summary>
@@ -276,7 +290,19 @@ public sealed class EngineTests
         };
         var exceptionalMonsters = data.Monsters.Where(x => exceptionalNames.Contains(x.Name)).ToList();
         Assert.Equal(8, exceptionalMonsters.Count);
-        Assert.All(exceptionalMonsters, monster => Assert.Contains("x1.5", monster.OverdrivenStat));
+        Assert.All(exceptionalMonsters, monster =>
+        {
+            Assert.Contains("x1.5", monster.OverdriveEffect);
+            Assert.False(string.IsNullOrWhiteSpace(monster.OverdrivenStat));
+            Assert.Contains(monster.OverdrivenStat!, new[] { "Strength", "Agility", "Constitution", "Intelligence", "Presence", "Piety" });
+        });
+
+        // TR-MONSTER-DATA-001: every monster carries a six-stat block and hits ported from the manual.
+        Assert.All(data.Monsters, monster =>
+        {
+            Assert.Equal(6, monster.Stats.Count);
+            Assert.True(monster.Hits > 0);
+        });
     }
 
     /// <summary>
@@ -304,6 +330,277 @@ public sealed class EngineTests
         Assert.NotNull(testStep);
         Assert.Equal("dotnet test BodyAndBrain.Engine.slnx", testStep!["pwsh"]);
     }
+
+    /// <summary>
+    /// Verifies FR-MONSTERSPAWN-001, TR-MONSTER-DATA-001, and TEST-MONSTER-001.
+    /// </summary>
+    [Fact]
+    public async Task EveryMonsterGeneratesThroughCqrsWithStatsAndOverdrive()
+    {
+        using var services = CreateServices();
+        var dispatcher = services.GetRequiredService<IDispatcher>();
+        var catalog = services.GetRequiredService<IGameDataCatalog>();
+
+        foreach (var monster in catalog.Data.Monsters)
+        {
+            foreach (var level in new[] { 1, 5, 50 })
+            {
+                var result = await dispatcher.SendAsync(new GenerateMonsterCommand(monster.Id, level, Persist: false));
+                AssertSuccess(result);
+                var npc = result.Value!;
+                Assert.True(npc.IsMonster);
+                Assert.Equal(monster.Name, npc.Monster);
+                Assert.Equal(monster.Name, npc.Race);
+                Assert.Equal(monster.Profession, npc.Profession);
+                Assert.Equal(level, npc.Level);
+                Assert.Equal(6, npc.Stats.Count);
+                Assert.InRange(npc.CurrentHits, 1, npc.MaxHits);
+                if (!string.IsNullOrWhiteSpace(monster.OverdrivenStat))
+                    Assert.Equal(monster.OverdrivenStat, npc.OverdrivenStat);
+                else
+                    Assert.Null(npc.OverdrivenStat);
+            }
+        }
+
+        var persisted = await dispatcher.SendAsync(new GenerateMonsterCommand("troll-berserker", 10, "Bridge Troll"));
+        AssertSuccess(persisted);
+        var markdown = await dispatcher.QueryAsync(new RenderNpcMarkdownQuery(persisted.Value!.Id));
+        AssertSuccess(markdown);
+        Assert.Contains("# Bridge Troll", markdown.Value);
+    }
+
+    /// <summary>
+    /// Verifies FR-PHYSATTACK-001, TR-COMBAT-TABLES-001, and TEST-COMBAT-001.
+    /// </summary>
+    [Fact]
+    public async Task PhysicalAttacksSurfaceAccuracyCriticalAndProtectionForEveryWeapon()
+    {
+        using var services = CreateServices();
+        var dispatcher = services.GetRequiredService<IDispatcher>();
+        var catalog = services.GetRequiredService<IGameDataCatalog>();
+        var actor = await CreateActorAsync(dispatcher);
+
+        foreach (var action in catalog.Data.Actions.Where(x => x.Kind == "physicalAttack"))
+        {
+            var targetResult = await dispatcher.SendAsync(new GenerateMonsterCommand("ogre-fighter", 5, $"Dummy-{action.Id}"));
+            AssertSuccess(targetResult);
+
+            // Natural 100 is always the best result, so a critical resolves regardless of the plate
+            // accuracy penalty (which can otherwise pull a high roll below the critical band).
+            var attack = await dispatcher.SendAsync(new ExecuteGameActionCommand(
+                action.Id, actor.Id, targetResult.Value!.Id,
+                RollOverride: 100,
+                Parameters: new Dictionary<string, string> { ["armor"] = "plate", ["damage"] = "8" }));
+            AssertSuccess(attack);
+
+            var outcome = Map(ParseYaml(attack.Value!.Document)["outcome"]);
+            var accuracy = Map(outcome["accuracy"]);
+            Assert.Contains("weaponSkillBonus", accuracy.Keys);
+            Assert.Contains("governingStatBonus", accuracy.Keys);
+            Assert.Contains("baseAttackBonus", accuracy.Keys);
+
+            var protection = Map(outcome["protection"]);
+            Assert.Equal("Plate", protection["armorProfile"]);
+            Assert.Equal(40, Int(protection["protectionPercent"]));
+
+            // Every weapon except the Fist resolves a critical type from the BaB crit tables.
+            if (action.ReferenceId != "fist")
+                Assert.NotNull(outcome["critical"]);
+        }
+
+        // None-armor attack reports zero protection percent.
+        var bare = await dispatcher.SendAsync(new GenerateMonsterCommand("skeleton-fighter", 5, "Bare"));
+        AssertSuccess(bare);
+        var bareAttack = await dispatcher.SendAsync(new ExecuteGameActionCommand(
+            "physical-attack-1h-edge", actor.Id, bare.Value!.Id, RollOverride: 60,
+            Parameters: new Dictionary<string, string> { ["damage"] = "5" }));
+        AssertSuccess(bareAttack);
+        var bareProtection = Map(Map(ParseYaml(bareAttack.Value!.Document)["outcome"])["protection"]);
+        Assert.Equal(0, Int(bareProtection["protectionPercent"]));
+    }
+
+    /// <summary>
+    /// Verifies FR-SPELL-001, TR-SPELL-RESOLVE-001, FR-ADJUDICATION-001, and TEST-SPELL-001.
+    /// </summary>
+    [Fact]
+    public async Task SpellActionsResolveDamageHealAndKeepAdjudicationWhereUnderspecified()
+    {
+        using var services = CreateServices();
+        var dispatcher = services.GetRequiredService<IDispatcher>();
+        var caster = await CreateActorAsync(dispatcher);
+
+        async Task<NpcRecord> Target(string label)
+        {
+            var t = await dispatcher.SendAsync(new GenerateMonsterCommand("ogre-fighter", 8, label));
+            AssertSuccess(t);
+            return t.Value!;
+        }
+
+        // Damage spell (Bolts, 1D10) reduces target hits and does not adjudicate.
+        var dmgTarget = await Target("Bolt Dummy");
+        var bolts = await dispatcher.SendAsync(new ExecuteGameActionCommand("cast-spell-body-bolts", caster.Id, dmgTarget.Id));
+        AssertSuccess(bolts);
+        Assert.False(bolts.Value!.RequiresAdjudication);
+        var afterBolts = await dispatcher.QueryAsync(new GetNpcQuery(dmgTarget.Id));
+        Assert.True(afterBolts.Value!.CurrentHits < dmgTarget.CurrentHits);
+
+        // Heal spell restores hits on a wounded target.
+        var healTarget = await Target("Heal Dummy");
+        await dispatcher.SendAsync(new ExecuteGameActionCommand("damage-target", caster.Id, healTarget.Id,
+            Parameters: new Dictionary<string, string> { ["amount"] = "20" }));
+        var wounded = (await dispatcher.QueryAsync(new GetNpcQuery(healTarget.Id))).Value!;
+        var heal = await dispatcher.SendAsync(new ExecuteGameActionCommand("cast-spell-blessings-heal", caster.Id, healTarget.Id));
+        AssertSuccess(heal);
+        Assert.False(heal.Value!.RequiresAdjudication);
+        var healed = (await dispatcher.QueryAsync(new GetNpcQuery(healTarget.Id))).Value!;
+        Assert.True(healed.CurrentHits > wounded.CurrentHits);
+
+        // Life drain damages the target.
+        var drainTarget = await Target("Drain Dummy");
+        var drain = await dispatcher.SendAsync(new ExecuteGameActionCommand("cast-spell-necromancer-life-drain", caster.Id, drainTarget.Id));
+        AssertSuccess(drain);
+        var drained = (await dispatcher.QueryAsync(new GetNpcQuery(drainTarget.Id))).Value!;
+        Assert.True(drained.CurrentHits < drainTarget.CurrentHits);
+
+        // Underspecified spell keeps adjudication.
+        var animate = await dispatcher.SendAsync(new ExecuteGameActionCommand("cast-spell-necromancer-animate-dead", caster.Id));
+        AssertSuccess(animate);
+        Assert.True(animate.Value!.RequiresAdjudication);
+        Assert.Equal("adjudication-spell", animate.Value.AdjudicationReason);
+
+        // Effect spell resolves deterministically without adjudication.
+        var hasten = await dispatcher.SendAsync(new ExecuteGameActionCommand("cast-spell-body-hasten", caster.Id));
+        AssertSuccess(hasten);
+        Assert.False(hasten.Value!.RequiresAdjudication);
+    }
+
+    /// <summary>
+    /// Verifies FR-STATUS-001, TR-STATUS-MODEL-001, and TEST-STATUS-001.
+    /// </summary>
+    [Fact]
+    public async Task StatusEffectsApplyPersistTickAndResolveResistance()
+    {
+        using var services = CreateServices();
+        var dispatcher = services.GetRequiredService<IDispatcher>();
+        var caster = await CreateActorAsync(dispatcher);
+
+        foreach (var status in new[] { "Bleed", "Poison", "Disease", "Stun", "Move", "Curse" })
+        {
+            var targetResult = await dispatcher.SendAsync(new GenerateMonsterCommand("troll-berserker", 8, $"Afflicted-{status}"));
+            AssertSuccess(targetResult);
+            var target = targetResult.Value!;
+
+            var applied = await dispatcher.SendAsync(new ExecuteGameActionCommand(
+                "apply-condition", caster.Id, target.Id,
+                Parameters: new Dictionary<string, string> { ["condition"] = status }));
+            AssertSuccess(applied);
+            var afterApply = (await dispatcher.QueryAsync(new GetNpcQuery(target.Id))).Value!;
+            Assert.Contains(afterApply.Statuses, s => string.Equals(s.Type, status, StringComparison.OrdinalIgnoreCase));
+
+            // Failed resistance (natural 1) keeps the status and applies damaging-status damage.
+            var tick = await dispatcher.SendAsync(new TickStatusEffectsCommand(target.Id, RollOverride: 1));
+            AssertSuccess(tick);
+            var afterTick = (await dispatcher.QueryAsync(new GetNpcQuery(target.Id))).Value!;
+            if (status is "Bleed" or "Poison" or "Disease")
+                Assert.True(afterTick.CurrentHits < afterApply.CurrentHits);
+
+            // Successful resistance (natural 100) clears remaining statuses.
+            await dispatcher.SendAsync(new TickStatusEffectsCommand(target.Id, RollOverride: 100));
+            var cleared = (await dispatcher.QueryAsync(new GetNpcQuery(target.Id))).Value!;
+            Assert.DoesNotContain(cleared.Statuses, s => s.Active && string.Equals(s.Type, status, StringComparison.OrdinalIgnoreCase));
+        }
+    }
+
+    /// <summary>
+    /// Verifies FR-ENGINE-ROLL-001 and TEST-ROLL-001.
+    /// </summary>
+    [Fact]
+    public async Task ClientExecuteActionForwardsRollOverride()
+    {
+        using var services = CreateServices();
+        var dispatcher = services.GetRequiredService<IDispatcher>();
+        var engine = services.GetRequiredService<IBodyAndBrainEngine>();
+        var actor = await CreateActorAsync(dispatcher);
+
+        var result = await engine.ExecuteActionAsync("physical-attack-1h-edge", actor.Id, rollOverride: 42);
+        var rolls = Map(ParseYaml(result.Document)["rolls"]);
+        Assert.Equal(42, Int(rolls["d100"]));
+    }
+
+    /// <summary>
+    /// Verifies FR-NPC-FALLBACK-001 and TEST-FALLBACK-001.
+    /// </summary>
+    [Fact]
+    public async Task EveryRaceProfessionCombinationGeneratesViaFallback()
+    {
+        using var services = CreateServices();
+        var dispatcher = services.GetRequiredService<IDispatcher>();
+        var catalog = services.GetRequiredService<IGameDataCatalog>();
+
+        foreach (var race in catalog.Data.Races)
+        {
+            foreach (var profession in catalog.Data.Professions)
+            {
+                foreach (var level in new[] { 1, 5, 50 })
+                {
+                    var result = await dispatcher.SendAsync(new GenerateNpcCommand(race.Name, profession.Name, level, Persist: false));
+                    AssertSuccess(result);
+                    Assert.Equal(level, result.Value!.Level);
+                    Assert.Equal(6, result.Value.Stats.Count);
+                    Assert.InRange(result.Value.CurrentHits, 1, result.Value.MaxHits);
+                }
+            }
+        }
+
+        // An invalid race/profession combination still generates, flagged as derived.
+        var derived = await dispatcher.SendAsync(new GenerateNpcCommand("Orc", "Wizard", 5, Persist: false));
+        AssertSuccess(derived);
+        Assert.True(derived.Value!.Derived);
+    }
+
+    /// <summary>
+    /// Verifies FR-OVERDRIVE-001 and TEST-OVERDRIVE-001.
+    /// </summary>
+    [Fact]
+    public async Task OverdrivenMonsterMultipliesGovernedStatEffect()
+    {
+        using var services = CreateServices();
+        var dispatcher = services.GetRequiredService<IDispatcher>();
+
+        // Dragon (Fighter) overdrives Strength, which governs the 1H Edge attack.
+        var dragon = await dispatcher.SendAsync(new GenerateMonsterCommand("dragon-fighter", 5, "Smaug"));
+        AssertSuccess(dragon);
+        var dragonTarget = await dispatcher.SendAsync(new GenerateMonsterCommand("ogre-fighter", 5, "DragonTarget"));
+        AssertSuccess(dragonTarget);
+
+        var dragonAttack = await dispatcher.SendAsync(new ExecuteGameActionCommand(
+            "physical-attack-1h-edge", dragon.Value!.Id, dragonTarget.Value!.Id,
+            RollOverride: 40, Parameters: new Dictionary<string, string> { ["damage"] = "4", ["weaponSkill"] = "5" }));
+        AssertSuccess(dragonAttack);
+        var dragonOutcome = Map(ParseYaml(dragonAttack.Value!.Document)["outcome"]);
+        var overdrive = Map(dragonOutcome["overdrive"]);
+        Assert.Equal("Strength", overdrive["stat"]?.ToString());
+        Assert.Equal(6, Int(dragonOutcome["damage"])); // 4 * 1.5, plain Hit, no armor
+
+        // Skeleton (Fighter) is not overdriven: same inputs yield the base 4 damage and no overdrive block.
+        var skeleton = await dispatcher.SendAsync(new GenerateMonsterCommand("skeleton-fighter", 5, "Rattles"));
+        AssertSuccess(skeleton);
+        var skeletonTarget = await dispatcher.SendAsync(new GenerateMonsterCommand("ogre-fighter", 5, "SkeletonTarget"));
+        AssertSuccess(skeletonTarget);
+        var skeletonAttack = await dispatcher.SendAsync(new ExecuteGameActionCommand(
+            "physical-attack-1h-edge", skeleton.Value!.Id, skeletonTarget.Value!.Id,
+            RollOverride: 40, Parameters: new Dictionary<string, string> { ["damage"] = "4", ["weaponSkill"] = "5" }));
+        AssertSuccess(skeletonAttack);
+        var skeletonOutcome = Map(ParseYaml(skeletonAttack.Value!.Document)["outcome"]);
+        Assert.False(skeletonOutcome.ContainsKey("overdrive"));
+        Assert.Equal(4, Int(skeletonOutcome["damage"]));
+    }
+
+    private static Dictionary<object, object?> Map(object? value)
+        => (Dictionary<object, object?>)value!;
+
+    private static int Int(object? value)
+        => int.Parse(value!.ToString()!);
 
     private static ServiceProvider CreateServices()
     {
