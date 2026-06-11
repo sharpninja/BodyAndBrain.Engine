@@ -13,6 +13,7 @@ public sealed class PlayerCharacterRecord
     public int MaxHits { get; set; }
     public int CurrentHits { get; set; }
     public List<string> LevelUpHistory { get; set; } = [];
+    public List<StatusEffectState> Statuses { get; set; } = [];
 }
 
 public sealed class NpcRecord
@@ -29,6 +30,32 @@ public sealed class NpcRecord
     public string Signature { get; set; } = "";
     public bool IsMonster { get; set; }
     public string? Monster { get; set; }
+
+    /// <summary>
+    /// Name of the stat whose governed-skill effect is overdriven x1.5 for exceptional monsters
+    /// (Lich/Demon/Dragon/Vampire). Null for ordinary NPCs and monsters.
+    /// </summary>
+    public string? OverdrivenStat { get; set; }
+
+    /// <summary>True when the NPC was generated from a derived (fallback) baseline rather than an exact one.</summary>
+    public bool Derived { get; set; }
+
+    public List<StatusEffectState> Statuses { get; set; } = [];
+}
+
+/// <summary>
+/// Mechanically effective status effect applied to a PC or NPC. BaB-canonical statuses are
+/// Bleed, Poison, Disease, Stun, Move, and Curse. Magnitude is per-round damage (for damaging
+/// statuses) or penalty magnitude (for control statuses). Resistance rolls are resolved on tick.
+/// </summary>
+public sealed class StatusEffectState
+{
+    public string Type { get; set; } = "";
+    public int Magnitude { get; set; }
+    public int RoundsRemaining { get; set; }
+    public string ResistanceStat { get; set; } = "";
+    public int ResistanceBonus { get; set; }
+    public bool Active { get; set; } = true;
 }
 
 public sealed class ActionLogRecord

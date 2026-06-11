@@ -137,3 +137,29 @@ public sealed class ExecuteGameActionCommandHandler(ActionExecutor executor) : I
     public Task<Result<YamlActionResult>> HandleAsync(ExecuteGameActionCommand command, CallContext context)
         => executor.ExecuteAsync(command, context.CancellationToken);
 }
+
+public sealed class GenerateMonsterCommandHandler(MonsterGenerator generator, IGameStore store)
+    : ICommandHandler<GenerateMonsterCommand, NpcRecord>
+{
+    public async Task<Result<NpcRecord>> HandleAsync(GenerateMonsterCommand command, CallContext context)
+    {
+        try
+        {
+            var monster = generator.Generate(command.MonsterId, command.Level, command.Name);
+            if (command.Persist)
+                await store.UpsertNpcAsync(monster, context.CancellationToken).ConfigureAwait(false);
+            return Result.Success(monster);
+        }
+        catch (Exception ex)
+        {
+            return Result.Failure<NpcRecord>(ex);
+        }
+    }
+}
+
+public sealed class TickStatusEffectsCommandHandler(ActionExecutor executor)
+    : ICommandHandler<TickStatusEffectsCommand, YamlActionResult>
+{
+    public Task<Result<YamlActionResult>> HandleAsync(TickStatusEffectsCommand command, CallContext context)
+        => executor.TickStatusesAsync(command, context.CancellationToken);
+}

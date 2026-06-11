@@ -2675,217 +2675,542 @@ monsters:
   profession: Rogue
   role: ambusher
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 52
+    Agility: 98
+    Constitution: 61
+    Intelligence: 60
+    Presence: 73
+    Piety: 43
   signature: Stealing or Hiding 5
 - id: goblin-ranger
   name: Goblin
   profession: Ranger
   role: skirmisher
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 52
+    Agility: 98
+    Constitution: 61
+    Intelligence: 60
+    Presence: 73
+    Piety: 43
   signature: Tracking or Primary Missile 5
 - id: hobgoblin-fighter
   name: Hobgoblin
   profession: Fighter
   role: soldier
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 45
+  stats:
+    Strength: 92
+    Agility: 76
+    Constitution: 82
+    Intelligence: 55
+    Presence: 57
+    Piety: 45
   signature: Primary Melee 5
 - id: hobgoblin-paladin
   name: Hobgoblin
   profession: Paladin
   role: champion
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 62
+    Agility: 56
+    Constitution: 72
+    Intelligence: 65
+    Presence: 57
+    Piety: 95
   signature: Prayer or Leadership 5
 - id: kobold-rogue
   name: Kobold
   profession: Rogue
   role: trapper
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 50
+    Agility: 98
+    Constitution: 60
+    Intelligence: 62
+    Presence: 73
+    Piety: 45
   signature: Stealing or Hiding 5
 - id: kobold-conjuror
   name: Kobold
   profession: Conjuror
   role: hex worker
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 35
+    Agility: 63
+    Constitution: 50
+    Intelligence: 97
+    Presence: 73
+    Piety: 70
   signature: Conjuring 5
 - id: orc-berserker
   name: Orc
   profession: Berserker
   role: raider
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 45
+  stats:
+    Strength: 93
+    Agility: 75
+    Constitution: 82
+    Intelligence: 52
+    Presence: 54
+    Piety: 45
   signature: Primary Melee 5
 - id: orc-fighter
   name: Orc
   profession: Fighter
   role: warrior
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 45
+  stats:
+    Strength: 93
+    Agility: 75
+    Constitution: 82
+    Intelligence: 52
+    Presence: 54
+    Piety: 45
   signature: Primary Melee 5
 - id: ogre-berserker
   name: Ogre
   profession: Berserker
   role: brute
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 50
+  stats:
+    Strength: 100
+    Agility: 67
+    Constitution: 90
+    Intelligence: 47
+    Presence: 51
+    Piety: 41
   signature: Primary Melee 5
 - id: ogre-fighter
   name: Ogre
   profession: Fighter
   role: club guard
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 50
+  stats:
+    Strength: 100
+    Agility: 67
+    Constitution: 90
+    Intelligence: 47
+    Presence: 51
+    Piety: 41
   signature: Primary Melee 5
 - id: troll-berserker
   name: Troll
   profession: Berserker
   role: regenerator
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 50
+  stats:
+    Strength: 100
+    Agility: 72
+    Constitution: 94
+    Intelligence: 49
+    Presence: 51
+    Piety: 43
   signature: Primary Melee 5
 - id: troll-ranger
   name: Troll
   profession: Ranger
   role: stalker
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 45
+  stats:
+    Strength: 70
+    Agility: 92
+    Constitution: 79
+    Intelligence: 54
+    Presence: 71
+    Piety: 43
   signature: Tracking or Primary Missile 5
 - id: skeleton-fighter
   name: Skeleton
   profession: Fighter
   role: bone guard
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 90
+    Agility: 75
+    Constitution: 72
+    Intelligence: 45
+    Presence: 47
+    Piety: 35
   signature: Primary Melee 5
 - id: skeleton-ranger
   name: Skeleton
   profession: Ranger
   role: dead archer
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 60
+    Agility: 95
+    Constitution: 57
+    Intelligence: 50
+    Presence: 67
+    Piety: 35
   signature: Tracking or Primary Missile 5
 - id: zombie-fighter
   name: Zombie
   profession: Fighter
   role: shambler
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 50
+  stats:
+    Strength: 94
+    Agility: 63
+    Constitution: 92
+    Intelligence: 40
+    Presence: 43
+    Piety: 35
   signature: Primary Melee 5
 - id: zombie-berserker
   name: Zombie
   profession: Berserker
   role: relentless dead
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 50
+  stats:
+    Strength: 94
+    Agility: 63
+    Constitution: 92
+    Intelligence: 40
+    Presence: 43
+    Piety: 35
   signature: Primary Melee 5
 - id: ghoul-rogue
   name: Ghoul
   profession: Rogue
   role: grave ambusher
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 62
+    Agility: 98
+    Constitution: 67
+    Intelligence: 56
+    Presence: 73
+    Piety: 37
   signature: Stealing or Hiding 5
 - id: ghoul-berserker
   name: Ghoul
   profession: Berserker
   role: feeding frenzy
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 45
+  stats:
+    Strength: 92
+    Agility: 78
+    Constitution: 82
+    Intelligence: 51
+    Presence: 53
+    Piety: 37
   signature: Primary Melee 5
 - id: vampire-rogue
   name: Vampire
   profession: Rogue
   role: night stalker
-  overdrivenStat: Governed skill effect x1.5
+  overdrivenStat: Agility
+  overdriveEffect: Governed skill effect x1.5
+  hits: 40
+  stats:
+    Strength: 64
+    Agility: 98
+    Constitution: 67
+    Intelligence: 64
+    Presence: 83
+    Piety: 37
   signature: Stealing or Hiding 5
 - id: vampire-conjuror
   name: Vampire
   profession: Conjuror
   role: blood sorcerer
-  overdrivenStat: Governed skill effect x1.5
+  overdrivenStat: Intelligence
+  overdriveEffect: Governed skill effect x1.5
+  hits: 40
+  stats:
+    Strength: 49
+    Agility: 63
+    Constitution: 57
+    Intelligence: 99
+    Presence: 83
+    Piety: 62
   signature: Conjuring 5
 - id: werewolf-berserker
   name: Werewolf
   profession: Berserker
   role: frenzied beast
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 45
+  stats:
+    Strength: 98
+    Agility: 78
+    Constitution: 86
+    Intelligence: 53
+    Presence: 55
+    Piety: 41
   signature: Primary Melee 5
 - id: werewolf-ranger
   name: Werewolf
   profession: Ranger
   role: moon hunter
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 68
+    Agility: 98
+    Constitution: 71
+    Intelligence: 58
+    Presence: 75
+    Piety: 41
   signature: Tracking or Primary Missile 5
 - id: giant-fighter
   name: Giant
   profession: Fighter
   role: club warrior
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 50
+  stats:
+    Strength: 100
+    Agility: 67
+    Constitution: 92
+    Intelligence: 51
+    Presence: 57
+    Piety: 45
   signature: Primary Melee 5
 - id: giant-berserker
   name: Giant
   profession: Berserker
   role: stone thrower
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 50
+  stats:
+    Strength: 100
+    Agility: 67
+    Constitution: 92
+    Intelligence: 51
+    Presence: 57
+    Piety: 45
   signature: Primary Melee 5
 - id: minotaur-fighter
   name: Minotaur
   profession: Fighter
   role: maze guard
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 45
+  stats:
+    Strength: 100
+    Agility: 75
+    Constitution: 88
+    Intelligence: 53
+    Presence: 55
+    Piety: 43
   signature: Primary Melee 5
 - id: minotaur-berserker
   name: Minotaur
   profession: Berserker
   role: charger
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 45
+  stats:
+    Strength: 100
+    Agility: 75
+    Constitution: 88
+    Intelligence: 53
+    Presence: 55
+    Piety: 43
   signature: Primary Melee 5
 - id: harpy-bard
   name: Harpy
   profession: Bard
   role: song lure
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 56
+    Agility: 68
+    Constitution: 58
+    Intelligence: 70
+    Presence: 100
+    Piety: 46
   signature: Songs or Persuasion 5
 - id: harpy-rogue
   name: Harpy
   profession: Rogue
   role: aerial thief
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 56
+    Agility: 98
+    Constitution: 63
+    Intelligence: 60
+    Presence: 83
+    Piety: 41
   signature: Stealing or Hiding 5
 - id: gargoyle-fighter
   name: Gargoyle
   profession: Fighter
   role: stone sentinel
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 50
+  stats:
+    Strength: 96
+    Agility: 75
+    Constitution: 90
+    Intelligence: 51
+    Presence: 53
+    Piety: 41
   signature: Primary Melee 5
 - id: gargoyle-rogue
   name: Gargoyle
   profession: Rogue
   role: statue ambusher
   overdrivenStat: null
+  overdriveEffect: ''
+  hits: 40
+  stats:
+    Strength: 66
+    Agility: 95
+    Constitution: 75
+    Intelligence: 56
+    Presence: 73
+    Piety: 41
   signature: Stealing or Hiding 5
 - id: dragon-fighter
   name: Dragon
   profession: Fighter
   role: ancient terror
-  overdrivenStat: Governed skill effect x1.5
+  overdrivenStat: Strength
+  overdriveEffect: Governed skill effect x1.5
+  hits: 50
+  stats:
+    Strength: 100
+    Agility: 79
+    Constitution: 92
+    Intelligence: 63
+    Presence: 65
+    Piety: 45
   signature: Primary Melee 5
 - id: dragon-conjuror
   name: Dragon
   profession: Conjuror
   role: breath caster
-  overdrivenStat: Governed skill effect x1.5
+  overdrivenStat: Intelligence
+  overdriveEffect: Governed skill effect x1.5
+  hits: 40
+  stats:
+    Strength: 60
+    Agility: 64
+    Constitution: 67
+    Intelligence: 100
+    Presence: 85
+    Piety: 70
   signature: Conjuring 5
 - id: lich-wizard
   name: Lich
   profession: Wizard
   role: undead archmage
-  overdrivenStat: Governed skill effect x1.5
+  overdrivenStat: Intelligence
+  overdriveEffect: Governed skill effect x1.5
+  hits: 35
+  stats:
+    Strength: 37
+    Agility: 56
+    Constitution: 49
+    Intelligence: 100
+    Presence: 83
+    Piety: 60
   signature: Wizardry 5
 - id: lich-conjuror
   name: Lich
   profession: Conjuror
   role: death summoner
-  overdrivenStat: Governed skill effect x1.5
+  overdrivenStat: Intelligence
+  overdriveEffect: Governed skill effect x1.5
+  hits: 35
+  stats:
+    Strength: 37
+    Agility: 56
+    Constitution: 49
+    Intelligence: 100
+    Presence: 83
+    Piety: 60
   signature: Conjuring 5
 - id: demon-berserker
   name: Demon
   profession: Berserker
   role: fiendish brute
-  overdrivenStat: Governed skill effect x1.5
+  overdrivenStat: Strength
+  overdriveEffect: Governed skill effect x1.5
+  hits: 45
+  stats:
+    Strength: 100
+    Agility: 79
+    Constitution: 88
+    Intelligence: 59
+    Presence: 63
+    Piety: 33
   signature: Primary Melee 5
 - id: demon-conjuror
   name: Demon
   profession: Conjuror
   role: hell caster
-  overdrivenStat: Governed skill effect x1.5
+  overdrivenStat: Intelligence
+  overdriveEffect: Governed skill effect x1.5
+  hits: 40
+  stats:
+    Strength: 55
+    Agility: 64
+    Constitution: 63
+    Intelligence: 99
+    Presence: 83
+    Piety: 58
   signature: Conjuring 5
+
 actions:
 - id: physical-attack-1h-edge
   name: Attack with 1H Edge

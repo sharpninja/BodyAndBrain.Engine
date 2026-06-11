@@ -38,3 +38,13 @@ public sealed record ExecuteGameActionCommand(
     string? TargetId = null,
     int? RollOverride = null,
     Dictionary<string, string>? Parameters = null) : ICommand<YamlActionResult>;
+
+public sealed record GenerateMonsterCommand(
+    string MonsterId,
+    int Level,
+    string? Name = null,
+    bool Persist = true) : ICommand<NpcRecord>;
+
+public sealed record TickStatusEffectsCommand(
+    string TargetId,
+    int? RollOverride = null) : ICommand<YamlActionResult>;
