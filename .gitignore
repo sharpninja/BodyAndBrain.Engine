@@ -1,4 +1,6 @@
 AGENTS-README-FIRST.yaml
+AGENTS-README-FIRST.yaml.deleted-*
+todo-bootstrap.marker
 .mcpServer/
 mcp.db
 bin/
