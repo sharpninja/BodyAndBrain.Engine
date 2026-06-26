@@ -1,0 +1,20 @@
+# Canonical magic numbers for BodyAndBrain rules engine.
+# Loaded via IConfiguration. These are the single source for numeric "constants"
+# used in character creation, leveling, hits, maneuvers, defense etc.
+# Update here (and embed) to change rules; docs and tests reference these values.
+
+game:
+  maxLevel: 50
+  baseHits: 35
+  skillMax: 10
+  baseStat: 50
+  primaryStatBonus: 20
+  maneuverDefaultRoll: 50
+  defenseBonus: 10
+  statNames:
+    - Strength
+    - Agility
+    - Constitution
+    - Intelligence
+    - Presence
+    - Piety

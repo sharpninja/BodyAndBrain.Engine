@@ -1,14 +1,14 @@
 namespace BodyAndBrain.Engine;
 
-public sealed class NpcGenerator(IGameDataCatalog catalog)
+public sealed class NpcGenerator(IGameDataCatalog catalog, MagicNumbers magic)
 {
-    private static readonly string[] StatOrder =
-        ["Strength", "Agility", "Constitution", "Intelligence", "Presence", "Piety"];
+    private readonly MagicNumbers _magic = magic;
+    private readonly string[] StatOrder = magic.StatNames.ToArray();
 
     public NpcRecord Generate(string raceName, string professionName, int level, string? name = null)
     {
-        if (level is < 1 or > 50)
-            throw new ArgumentOutOfRangeException(nameof(level), "NPC level must be between 1 and 50.");
+        if (level < 1 || level > _magic.MaxLevel)
+            throw new ArgumentOutOfRangeException(nameof(level), $"NPC level must be between 1 and {_magic.MaxLevel}.");
 
         var race = catalog.GetRace(raceName);
         var profession = catalog.GetProfession(professionName);
@@ -27,7 +27,7 @@ public sealed class NpcGenerator(IGameDataCatalog catalog)
         var signature = derived ? $"Derived {race.Name} {profession.Name} baseline" : baseline!.Signature;
 
         var stats = ScaleStats(baseStats, profession, level);
-        var hits = Math.Max(1, 35 + Mechanics.LevelSignificance(level) * 3 + Mechanics.StatBonus(stats.GetValueOrDefault("Constitution")) * 5);
+        var hits = Math.Max(1, _magic.BaseHits + Mechanics.LevelSignificance(level) * 3 + Mechanics.StatBonus(stats.GetValueOrDefault("Constitution")) * 5);
         return new NpcRecord
         {
             Id = Guid.NewGuid().ToString("n"),
@@ -44,20 +44,20 @@ public sealed class NpcGenerator(IGameDataCatalog catalog)
         };
     }
 
-    private static Dictionary<string, int> DeriveBaseStats(RaceDefinition race, ProfessionDefinition profession)
+    private Dictionary<string, int> DeriveBaseStats(RaceDefinition race, ProfessionDefinition profession)
     {
         var stats = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         foreach (var stat in StatOrder)
         {
             var racial = race.StatBonuses.GetValueOrDefault(stat);
-            var primary = string.Equals(stat, profession.PrimaryStat, StringComparison.OrdinalIgnoreCase) ? 20 : 0;
-            stats[stat] = Mechanics.ClampStat(50 + racial * 5 + primary);
+            var primary = string.Equals(stat, profession.PrimaryStat, StringComparison.OrdinalIgnoreCase) ? _magic.PrimaryStatBonus : 0;
+            stats[stat] = Mechanics.ClampStat(_magic.BaseStat + racial * 5 + primary);
         }
 
         return stats;
     }
 
-    private static Dictionary<string, int> ScaleStats(Dictionary<string, int> baseStats, ProfessionDefinition profession, int level)
+    private Dictionary<string, int> ScaleStats(Dictionary<string, int> baseStats, ProfessionDefinition profession, int level)
     {
         var significance = Mechanics.LevelSignificance(level);
         var (bodyAge, brainAge) = Mechanics.AgeModifier(level);
@@ -95,12 +95,14 @@ public sealed class NpcGenerator(IGameDataCatalog catalog)
 /// catalog. Each monster carries the canonical level-5 baseline stat block; generation scales the
 /// block by level significance like ordinary NPCs and carries the overdriven governing stat forward.
 /// </summary>
-public sealed class MonsterGenerator(IGameDataCatalog catalog)
+public sealed class MonsterGenerator(IGameDataCatalog catalog, MagicNumbers magic)
 {
+    private readonly MagicNumbers _magic = magic;
+
     public NpcRecord Generate(string monsterId, int level, string? name = null)
     {
-        if (level is < 1 or > 50)
-            throw new ArgumentOutOfRangeException(nameof(level), "Monster level must be between 1 and 50.");
+        if (level < 1 || level > _magic.MaxLevel)
+            throw new ArgumentOutOfRangeException(nameof(level), $"Monster level must be between 1 and {_magic.MaxLevel}.");
 
         var monster = catalog.Data.Monsters.SingleOrDefault(x =>
             string.Equals(x.Id, monsterId, StringComparison.OrdinalIgnoreCase)

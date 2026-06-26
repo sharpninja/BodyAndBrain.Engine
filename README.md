@@ -11,6 +11,8 @@ for every action.
 - **Dispatch:** `SharpNinja.FeatureFlags.Cqrs.IDispatcher`
 - **Data:** an embedded YAML catalog transcribed from the BaB manual and the
   `BodyAndBrain.xlsm` workbook
+- **Configuration:** Magic numbers (base hits, level caps, etc.) loaded from `Data/magic-numbers.yaml` via `IConfiguration`
+- **Determinism:** Per-action `rollOverride` + optional `RandomSeed` on `BodyAndBrainEngineOptions` for full run reproducibility
 
 ## What it is, and is not
 

@@ -10,7 +10,12 @@ public interface IDiceRoller
 
 public sealed class RandomDiceRoller : IDiceRoller
 {
-    private readonly Random _random = new();
+    private readonly Random _random;
+
+    public RandomDiceRoller(int? seed = null)
+    {
+        _random = seed.HasValue ? new Random(seed.Value) : new Random();
+    }
 
     public int D100() => _random.Next(1, 101);
 

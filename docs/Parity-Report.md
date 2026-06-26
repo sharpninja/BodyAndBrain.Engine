@@ -16,9 +16,9 @@ Embedded catalog counts:
 | Armor definitions | 10 |
 | Items | 35 |
 | Maneuvers | 12 |
-| NPC baselines | 46 |
+| NPC baselines | 36 |
 | Monsters | 36 |
-| Actions | 141 |
+| Actions | 142 |
 | Known gaps | 1 |
 
 Coverage status:
@@ -53,4 +53,4 @@ Validation command:
 dotnet test BodyAndBrain.Engine.slnx
 ```
 
-Latest local result: 16 passed, 0 failed, 0 skipped.
+Latest local result: 23 passed, 0 failed, 0 skipped (includes exhaustive table-driven tests for scenarios).

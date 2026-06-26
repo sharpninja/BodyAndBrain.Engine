@@ -43,7 +43,7 @@ public sealed class RenderNpcMarkdownQueryHandler(IGameStore store, NpcMarkdownR
     }
 }
 
-public sealed class CreatePlayerCharacterCommandHandler(IGameDataCatalog catalog, IGameStore store)
+public sealed class CreatePlayerCharacterCommandHandler(IGameDataCatalog catalog, IGameStore store, MagicNumbers magic)
     : ICommandHandler<CreatePlayerCharacterCommand, PlayerCharacterRecord>
 {
     public async Task<Result<PlayerCharacterRecord>> HandleAsync(CreatePlayerCharacterCommand command, CallContext context)
@@ -61,8 +61,8 @@ public sealed class CreatePlayerCharacterCommandHandler(IGameDataCatalog catalog
             if (apprenticeship is null || !string.Equals(apprenticeship.Profession, profession.Name, StringComparison.OrdinalIgnoreCase))
                 return Result.Failure<PlayerCharacterRecord>($"Apprenticeship '{command.Apprenticeship}' is not valid for {profession.Name}.");
 
-            var stats = race.StatBonuses.ToDictionary(x => x.Key, x => Mechanics.ClampStat(50 + x.Value), StringComparer.OrdinalIgnoreCase);
-            var maxHits = 35 + Mechanics.StatBonus(stats.GetValueOrDefault("Constitution")) * 5;
+            var stats = race.StatBonuses.ToDictionary(x => x.Key, x => Mechanics.ClampStat(magic.BaseStat + x.Value), StringComparer.OrdinalIgnoreCase);
+            var maxHits = magic.BaseHits + Mechanics.StatBonus(stats.GetValueOrDefault("Constitution")) * 5;
             var record = new PlayerCharacterRecord
             {
                 Id = Guid.NewGuid().ToString("n"),
@@ -90,23 +90,30 @@ public sealed class CreatePlayerCharacterCommandHandler(IGameDataCatalog catalog
     }
 }
 
-public sealed class ApplyLevelUpCommandHandler(IGameStore store) : ICommandHandler<ApplyLevelUpCommand, PlayerCharacterRecord>
+public sealed class ApplyLevelUpCommandHandler(IGameStore store, MagicNumbers magic) : ICommandHandler<ApplyLevelUpCommand, PlayerCharacterRecord>
 {
     public async Task<Result<PlayerCharacterRecord>> HandleAsync(ApplyLevelUpCommand command, CallContext context)
     {
         var character = await store.GetPlayerAsync(command.CharacterId, context.CancellationToken).ConfigureAwait(false);
         if (character is null)
             return Result.Failure<PlayerCharacterRecord>($"Character '{command.CharacterId}' was not found.");
-        if (character.Level >= 50)
-            return Result.Failure<PlayerCharacterRecord>("Character is already at the maximum level 50.");
+        if (character.Level >= magic.MaxLevel)
+            return Result.Failure<PlayerCharacterRecord>($"Character is already at the maximum level {magic.MaxLevel}.");
+
+        // Validate increments use known stats (from magic config)
+        foreach (var (stat, _) in command.StatIncrements ?? [])
+        {
+            if (!magic.StatNames.Contains(stat, StringComparer.OrdinalIgnoreCase))
+                return Result.Failure<PlayerCharacterRecord>($"Unknown stat '{stat}' in level-up increments.");
+        }
 
         character.Level++;
         foreach (var (stat, amount) in command.StatIncrements ?? [])
             character.Stats[stat] = Mechanics.ClampStat(character.Stats.GetValueOrDefault(stat) + amount);
         foreach (var (skill, amount) in command.SkillIncrements ?? [])
-            character.Skills[skill] = Math.Clamp(character.Skills.GetValueOrDefault(skill) + amount, 0, 10);
+            character.Skills[skill] = Math.Clamp(character.Skills.GetValueOrDefault(skill) + amount, 0, magic.SkillMax);
 
-        character.MaxHits = Math.Max(1, 35 + Mechanics.LevelSignificance(character.Level) * 3 + Mechanics.StatBonus(character.Stats.GetValueOrDefault("Constitution")) * 5);
+        character.MaxHits = Math.Max(1, magic.BaseHits + Mechanics.LevelSignificance(character.Level) * 3 + Mechanics.StatBonus(character.Stats.GetValueOrDefault("Constitution")) * 5);
         character.CurrentHits = Math.Min(character.MaxHits, character.CurrentHits + 5);
         character.LevelUpHistory.Add($"Level {character.Level}: stat increments={command.StatIncrements?.Count ?? 0}; skill increments={command.SkillIncrements?.Count ?? 0}");
         await store.UpsertPlayerAsync(character, context.CancellationToken).ConfigureAwait(false);

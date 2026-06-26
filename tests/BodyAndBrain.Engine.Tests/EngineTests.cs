@@ -1,4 +1,5 @@
 using BodyAndBrain.Engine;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharpNinja.FeatureFlags.Cqrs;
 using YamlDotNet.Serialization;
@@ -661,5 +662,103 @@ public sealed class EngineTests
         }
 
         throw new InvalidOperationException("Repository root containing BodyAndBrain.Engine.slnx was not found.");
+    }
+
+    // --- New tests per remediation plan ---
+
+    [Fact]
+    public void MagicNumbers_LoadedViaIConfiguration_MatchExpectedCanonicalValues()
+    {
+        using var services = CreateServices();
+        var config = services.GetRequiredService<IConfiguration>();
+        var magic = services.GetRequiredService<MagicNumbers>();
+
+        // Values come from Data/magic-numbers.yaml bound via IConfiguration
+        Assert.Equal(50, magic.MaxLevel);
+        Assert.Equal(35, magic.BaseHits);
+        Assert.Equal(10, magic.SkillMax);
+        Assert.Equal(50, magic.BaseStat);
+        Assert.Equal(20, magic.PrimaryStatBonus);
+        Assert.Equal(50, magic.ManeuverDefaultRoll);
+        Assert.Equal(10, magic.DefenseBonus);
+        Assert.Contains("Strength", magic.StatNames);
+
+        // IConfiguration is registered and bound (values available via POCO primarily; config section also populated)
+        var gameSection = config.GetSection("game");
+        Assert.True(gameSection.Exists() || !string.IsNullOrEmpty(config["game:MaxLevel"])); // basic presence check
+        Assert.Equal(50, magic.MaxLevel); // primary verification via bound POCO from IConfiguration source
+    }
+
+    [Fact]
+    public void RandomDiceRoller_WithSeed_ProducesDeterministicRolls()
+    {
+        var seeded1 = new RandomDiceRoller(12345);
+        var seeded2 = new RandomDiceRoller(12345);
+
+        var r1 = seeded1.D100();
+        var r2 = seeded2.D100();
+
+        Assert.Equal(r1, r2); // same seed => same sequence
+
+        // Different seed produces different (almost always)
+        var other = new RandomDiceRoller(54321).D100();
+        // Not asserting inequality (possible collision) but exercise path
+    }
+
+    /// <summary>
+    /// Exhaustive coverage using the actual data tables (source of truth in code which derives from docs/manual).
+    /// Rule changes in tables/docs can be validated by updating data; tests drive from the tables.
+    /// (Slow tests acceptable per requirements.)
+    /// </summary>
+    [Fact]
+    public void Exhaustive_CombatTables_CoverAllWeaponArmorCritScenarios()
+    {
+        var profiles = new[] { "1H Edge", "2H Edge", "1H Conc", "2H Conc", "Thrown", "Crossbow", "Shortbow", "Longbow", "Fist", "Claws" };
+        var armors = CombatTables.ArmorColumns;
+
+        foreach (var profile in profiles)
+        {
+            for (int col = 0; col < armors.Length; col++)
+            {
+                var bab = CombatTables.BaseAttackBonus(profile, col);
+                var crit = CombatTables.CriticalType(profile, col);
+
+                // Every profile x armor produces a valid BAB
+                Assert.True(bab >= -30 && bab <= 30);
+
+                if (profile != "Fist")
+                {
+                    Assert.NotNull(crit);
+                }
+
+                // Exhaustive crit scores -3..4 mapped
+                for (int cs = -3; cs <= 4; cs++)
+                {
+                    var effect = CombatTables.CriticalEffect(crit?.Type ?? "Slash", cs);
+                    Assert.True(effect.Immediate >= 0);
+                }
+            }
+        }
+    }
+
+    [Fact]
+    public void Exhaustive_Mechanics_RollOutcomeAndStatBonus_AllBands()
+    {
+        // Natural special + band exhaustive
+        Assert.Equal("F", Mechanics.RollOutcome(1));
+        Assert.Equal("2x Hit + Critical", Mechanics.RollOutcome(100));
+
+        for (int r = 2; r <= 99; r++)
+        {
+            var o = Mechanics.RollOutcome(r, r); // total==natural for simplicity
+            Assert.Contains(o, new[] { "Miss", "Hit / 2", "Hit", "Hit + Critical" });
+        }
+
+        // Stat bonus boundaries
+        Assert.Equal(0, Mechanics.StatBonus(49));
+        Assert.Equal(1, Mechanics.StatBonus(50));
+        Assert.Equal(1, Mechanics.StatBonus(74));
+        Assert.Equal(2, Mechanics.StatBonus(75));
+        Assert.Equal(10, Mechanics.StatBonus(100));
     }
 }

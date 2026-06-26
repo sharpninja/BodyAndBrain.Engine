@@ -4,8 +4,9 @@ using SharpNinja.FeatureFlags.Cqrs;
 
 namespace BodyAndBrain.Engine;
 
-public sealed class ActionExecutor(IGameDataCatalog catalog, IGameStore store, IDiceRoller dice)
+public sealed class ActionExecutor(IGameDataCatalog catalog, IGameStore store, IDiceRoller dice, MagicNumbers magic)
 {
+    private readonly MagicNumbers _magic = magic;
     private readonly ISerializer _serializer = new SerializerBuilder()
         .WithNamingConvention(CamelCaseNamingConvention.Instance)
         .DisableAliases()
@@ -53,7 +54,7 @@ public sealed class ActionExecutor(IGameDataCatalog catalog, IGameStore store, I
                 (requiresAdjudication, reason) = await ExecuteSpellAsync(action, command, actor, target, document, ct).ConfigureAwait(false);
                 break;
             case "maneuver":
-                ExecuteManeuver(command, document);
+                ExecuteManeuver(command, document, _magic);
                 break;
             case "system" when action.Id == "damage-target":
                 if (target is null)
@@ -68,7 +69,7 @@ public sealed class ActionExecutor(IGameDataCatalog catalog, IGameStore store, I
                     await ApplyHitChangeAsync(command.TargetId!, document, Amount(command), ct).ConfigureAwait(false);
                 break;
             case "system" when action.Id == "defend":
-                ((Dictionary<string, object?>)document["outcome"]!)["result"] = "Defensive posture grants +10 defense until the actor's next turn.";
+                ((Dictionary<string, object?>)document["outcome"]!)["result"] = $"Defensive posture grants +{_magic.DefenseBonus} defense until the actor's next turn.";
                 break;
             case "system" when action.Id == "apply-condition":
                 await ApplyConditionAsync(command, actor, target, document, ct).ConfigureAwait(false);
@@ -398,9 +399,9 @@ public sealed class ActionExecutor(IGameDataCatalog catalog, IGameStore store, I
         outcomeMap["result"] = $"{type} status applied.";
     }
 
-    private static void ExecuteManeuver(ExecuteGameActionCommand command, Dictionary<string, object?> document)
+    private static void ExecuteManeuver(ExecuteGameActionCommand command, Dictionary<string, object?> document, MagicNumbers magic)
     {
-        var roll = command.RollOverride ?? 50;
+        var roll = command.RollOverride ?? magic.ManeuverDefaultRoll;
         var outcome = Mechanics.RollOutcome(roll);
         ((Dictionary<string, object?>)document["rolls"]!)["d100"] = roll;
         ((Dictionary<string, object?>)document["outcome"]!)["result"] = outcome;

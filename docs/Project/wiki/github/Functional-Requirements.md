@@ -46,7 +46,7 @@ BodyAndBrain.Engine must expose game operations as SharpNinja.FeatureFlags.Cqrs 
 
 IBodyAndBrainEngine.ExecuteActionAsync accepts an optional rollOverride parameter and forwards it to ExecuteGameActionCommand.RollOverride.
 **Acceptance Criteria:**
-- [ ] ExecuteActionAsync exposes rollOverride and forwards it to the dispatched command.
+- [x] ExecuteActionAsync exposes rollOverride and forwards it to the dispatched command. (Additionally supports engine-wide RandomSeed for full determinism.)
 
 ## FR-MONSTERS-001 Monster baseline catalog and overdrive
 
